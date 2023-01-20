@@ -4,35 +4,59 @@
         <meta charset="UTF-8">
     </head>
     <body>
-        <div >
-            <button onclick="func1()">refresh messages</button>
+        <div>
+            <p ID="messages"></p>
         </div>
         <div class="bottom-element">
-            <input type="text" ID="name_input" placeholder="name">
-            <input type="text" ID="message_input" placeholder="message">
-            <button onclick="func2()">Send message</button>
+            <table class="center">
+                <tr>
+                    <td>
+                        <button onclick="func1()">refresh messages</button>
+                    </td>
+                    <td>
+                        <input type="text" ID="message_input" placeholder="message">
+                    </td>
+                    <td>
+                        <button onclick="func2()">Send message</button>
+                    </td>
+                </tr>
+            </table>
         </div>
-        <p ID="messages"></p>
     </body>
 
     <style>
-
+        .center {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        p {
+            color: #e7e7e7;
+        }
+        body {
+            background-color: #1e1e1e;
+        }
+        input {
+            color: #e7e7e7;
+            background-color: #2a2a2a;
+            height: 50px;
+            width: 400px;
+        }
         .bottom-element {
             position: fixed;
             bottom: 0;
         }
         button {
-            height: 100px;
-            width: 100px;
+            height: 50px;
             padding: 1%;
-            background-color: white;
+            background-color: #e7e7e7;
         }
         button:hover {
-            background-color: red;
+            background-color: lightsteelblue;
         }
     </style>
 
     <script>
+        let user_name = prompt("please enter your name")
         function func1() {
             const request = new XMLHttpRequest(); // create new HTTP request
             request.open('GET', '/content'); // request /content
@@ -46,13 +70,14 @@
         function func2() {
             const request = new XMLHttpRequest(); // create new HTTP request
             var data = { // create object to send to server 
-                "name": document.getElementById("name_input").value, // name field
+                "name": user_name, // name field
                 "message": document.getElementById("message_input").value // message field
             };
 
             request.open('POST', '/message'); // open POST request
             request.setRequestHeader("Content-Type", "application/json"); // let server know to expect JSON
             request.send(JSON.stringify(data)); // send that bih
+            document.getElementById("message_input").value = ""
             func1(); // refresh content to see your message (should be run when request is returned but isnt)
         }
     </script>
