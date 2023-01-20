@@ -4,21 +4,22 @@
         <meta charset="UTF-8">
     </head>
     <body>
-        <div>
+        <div >
             <button onclick="func1()">refresh messages</button>
-            <button onclick="func2()">Send message</button>
         </div>
-        <div>
+        <divclass="bottom-element">
             <input type="text" ID="name_input" placeholder="name">
             <input type="text" ID="message_input" placeholder="message">
+            <button onclick="func2()">Send message</button>
         </div>
         <p ID="messages"></p>
     </body>
 
     <style>
-        .center {
-            position: relative;
-            left: 50%;
+
+        .bottom-element {
+            position: fixed;
+            bottom: 0;
         }
         button {
             height: 100px;
