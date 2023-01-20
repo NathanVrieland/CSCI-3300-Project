@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <div>
+            <button onclick="func1()">refresh messages</button>
+            <button onclick="func2()">Send message</button>
+        </div>
+        <div>
+            <input type="text" ID="name_input" placeholder="name">
+            <input type="text" ID="message_input" placeholder="message">
+        </div>
+        <p ID="messages"></p>
+    </body>
+
+    <style>
+        .center {
+            position: relative;
+            left: 50%;
+        }
+        button {
+            height: 100px;
+            width: 100px;
+            padding: 1%;
+            background-color: white;
+        }
+        button:hover {
+            background-color: lightsteelblue;
+        }
+    </style>
+
+    <script>
+        function func1() {
+            const request = new XMLHttpRequest(); // create new HTTP request
+            request.open('GET', '/content'); // request /content
+            request.onreadystatechange = function() { // runs when request is returned 
+                if (request.readyState === 4 && request.status === 200) { // make sure return suceeded 
+                    document.getElementById("messages").innerText = request.responseText // replace page content with returned text
+                }
+            }
+            request.send() // send the request (that previous function will run when it is returned)
+        }
+        function func2() {
+            const request = new XMLHttpRequest(); // create new HTTP request
+            var data = { // create object to send to server 
+                "name": document.getElementById("name_input").value, // name field
+                "message": document.getElementById("message_input").value // message field
+            };
+
+            request.open('POST', '/message'); // open POST request
+            request.setRequestHeader("Content-Type", "application/json"); // let server know to expect JSON
+            request.send(JSON.stringify(data)); // send that bih
+            func1(); // refresh content to see your message (should be run when request is returned but isnt)
+        }
+    </script>
+</html>
