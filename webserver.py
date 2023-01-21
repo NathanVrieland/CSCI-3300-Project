@@ -2,8 +2,8 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import time
 import json
 
-hostName = "localhost"
-serverPort = 4000
+hostName = ""
+serverPort = 80
 
 class MyServer(BaseHTTPRequestHandler):
     def do_GET(self):
