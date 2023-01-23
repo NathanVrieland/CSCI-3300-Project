@@ -4,7 +4,6 @@ import json
 #THIS IS LUKE
 #Nathan
 #comment
-#Spencer
 hostName = ""
 serverPort = 80
 
