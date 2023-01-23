@@ -2,6 +2,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import time
 import json
 #THIS IS LUKE
+#Spencer
 hostName = ""
 serverPort = 80
 
