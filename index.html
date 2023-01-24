@@ -58,6 +58,19 @@
 
     <script>
         let user_name = prompt("please enter your name")
+
+        const contentSocket = new WebSocket("localhost")
+
+        contentSocket.onopen = function(event) {
+            contentSocket.send("Socket open")
+            console.log("websocket open")
+        }
+
+        contentSocket.onmessage = function(event) {
+            console.log("recieved: " + event.data)
+            func1() // refresh content
+        }
+
         function func1() {
             const request = new XMLHttpRequest(); // create new HTTP request
             request.open('GET', '/content'); // request /content
