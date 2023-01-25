@@ -5,8 +5,8 @@ from flask_socketio import SocketIO, emit, send
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app)
-host = ""
-port = 80
+host = "0.0.0.0" # 0.0.0.0 to host publically
+port = 80 # 80 is default for http
 
 @app.route('/')
 def handle_root():
@@ -41,4 +41,4 @@ def handle_message(message):
         emit('update', {'data': "nm"}, broadcast=True)
 
 if __name__ == '__main__':
-    socketio.run(app, port=80, host="0.0.0.0")
+    socketio.run(app, port=port, host=host)

@@ -58,7 +58,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
     <script>
         let user_name = prompt("please enter your name")
-
+        func1()
         // create contentsocket websocket and connect it
         var contentSocket = io();
         contentSocket.onopen = function(event) {
@@ -72,6 +72,13 @@
         contentSocket.onclose = function() {
             console.log('WebSocket connection closed');
         };
+
+        var textInput = document.getElementById("message_input")
+        textInput.addEventListener("keypress", (event) => {
+            if (event.key === "Enter") {
+                func2()
+            }
+        })
         
         function func1() {
             const request = new XMLHttpRequest(); // create new HTTP request
