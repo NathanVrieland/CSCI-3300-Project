@@ -41,4 +41,4 @@ def handle_message(message):
         emit('update', {'data': "nm"}, broadcast=True)
 
 if __name__ == '__main__':
-    socketio.run(app, port=80, host="")
+    socketio.run(app, port=80, host="0.0.0.0")
