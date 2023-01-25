@@ -15,6 +15,7 @@ def handle_message():
     message = request.get_json()
     with open("messages.txt", 'a') as messagefile:
         messagefile.write(f"{message['name']}: {message['message']}\n")
+    return "ok"
 
 @app.route('/content', methods=['GET'])
 def handle_content():
