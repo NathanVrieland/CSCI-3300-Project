@@ -63,7 +63,7 @@
         var contentSocket = io();
 
         contentSocket.on('update', (msg) => {
-            console.log("recieved new message, updating")
+            console.log("recieved new message, updating...")
             func1() // refresh content
         });
 
