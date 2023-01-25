@@ -55,22 +55,20 @@
             background-color: lightsteelblue;
         }
     </style>
-    <!-- possible fix for websockets, this is a library import I dont really want to use
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
-    I would much rather use this https://blog.miguelgrinberg.com/post/add-a-websocket-route-to-your-flask-2-x-application-->
     <script>
         let user_name = prompt("please enter your name")
 
         // create contentsocket websocket and connect it
-        const contentSocket = io.connect("http://localhost:5000");
+        var contentSocket = io();
         contentSocket.onopen = function(event) {
             contentSocket.send("Socket open")
             console.log("websocket open")
         }
-        contentSocket.onmessage = function(event) {
-            console.log("recieved: " + event.data)
+        contentSocket.on('update', (msg) => {
+            console.log("recieved new message, updating")
             func1() // refresh content
-        }
+        });
         contentSocket.onclose = function() {
             console.log('WebSocket connection closed');
         };
@@ -96,6 +94,7 @@
             request.setRequestHeader("Content-Type", "application/json"); // let server know to expect JSON
             request.send(JSON.stringify(data)); // send that bih
             document.getElementById("message_input").value = ""
+            contentSocket.send("update")
             func1(); // refresh content to see your message (should be run when request is returned but isnt)
         }
     </script>
