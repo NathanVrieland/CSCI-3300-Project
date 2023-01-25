@@ -19,7 +19,7 @@ def handle_message():
     with open("messages.txt", 'a') as messagefile:
         messagefile.write(f"{message['name']}: {message['message']}\n")
     return "ok"
-    emit('u', data, broadcast=True)
+    emit('update', {'data': "nm"}, broadcast=True)
 
 @app.route('/content', methods=['GET'])
 def handle_content():

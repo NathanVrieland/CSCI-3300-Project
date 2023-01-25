@@ -61,17 +61,11 @@
         func1()
         // create contentsocket websocket and connect it
         var contentSocket = io();
-        contentSocket.onopen = function(event) {
-            contentSocket.send("Socket open")
-            console.log("websocket open")
-        }
+
         contentSocket.on('update', (msg) => {
             console.log("recieved new message, updating")
             func1() // refresh content
         });
-        contentSocket.onclose = function() {
-            console.log('WebSocket connection closed');
-        };
 
         var textInput = document.getElementById("message_input")
         textInput.addEventListener("keypress", (event) => {
@@ -101,7 +95,7 @@
             request.setRequestHeader("Content-Type", "application/json"); // let server know to expect JSON
             request.send(JSON.stringify(data)); // send that bih
             document.getElementById("message_input").value = ""
-            contentSocket.send("update")
+            contentSocket.send("update") // sends update through socket
             func1(); // refresh content to see your message (should be run when request is returned but isnt)
         }
     </script>
