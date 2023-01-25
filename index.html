@@ -55,12 +55,14 @@
             background-color: lightsteelblue;
         }
     </style>
-
+    <!-- possible fix for websockets, this is a library import I dont really want to use
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+    -->
     <script>
         let user_name = prompt("please enter your name")
 
         // create contentsocket websocket and connect it
-        const contentSocket = new WebSocket("ws://localhost:5000");
+        const contentSocket = io.connect("http://localhost:5000");
         contentSocket.onopen = function(event) {
             contentSocket.send("Socket open")
             console.log("websocket open")

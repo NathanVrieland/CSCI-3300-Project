@@ -1,3 +1,4 @@
+# this does the same thing as the other two webservers, but uses python flask library
 from flask import Flask, request
 from flask_socketio import SocketIO, emit
 
@@ -16,6 +17,7 @@ def handle_message():
     with open("messages.txt", 'a') as messagefile:
         messagefile.write(f"{message['name']}: {message['message']}\n")
     return "ok"
+    emit('u', data, broadcast=True)
 
 @app.route('/content', methods=['GET'])
 def handle_content():
