@@ -6,7 +6,7 @@ from flask_socketio import SocketIO, emit, send
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app)
-host = "localhost" # 0.0.0.0 to host publically
+host = "0.0.0.0" # 0.0.0.0 to host publically
 port = 80 # 80 is default for http
 
 @app.route('/')
