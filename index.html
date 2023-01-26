@@ -11,13 +11,13 @@
             <table class="center">
                 <tr>
                     <td>
-                        <button onclick="func1()">refresh messages</button>
+                        <button onclick="get_chat()">refresh messages</button>
                     </td>
                     <td>
                         <input type="text" ID="message_input" placeholder="message">
                     </td>
                     <td>
-                        <button onclick="func2()">Send message</button>
+                        <button onclick="send_chat()">Send message</button>
                     </td>
                 </tr>
             </table>
@@ -58,23 +58,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
     <script>
         let user_name = prompt("please enter your name")
-        func1()
+        get_chat()
         // create contentsocket websocket and connect it
-        var contentSocket = io();
-
-        contentSocket.on('update', (msg) => {
+        var contentSocket = io(); // create socket
+        contentSocket.on('update', (msg) => { // when 'update' gets sent from the server
             console.log("recieved new message, updating...")
-            func1() // refresh content
+            get_chat() // refresh content
         });
 
+        // add event listener to detect when the user hits 'enter' in the text input
         var textInput = document.getElementById("message_input")
         textInput.addEventListener("keypress", (event) => {
             if (event.key === "Enter") {
-                func2()
+                send_chat()
             }
         })
         
-        function func1() {
+        function get_chat() {
             const request = new XMLHttpRequest(); // create new HTTP request
             request.open('GET', '/content'); // request /content
             request.onreadystatechange = function() { // runs when request is returned 
@@ -82,22 +82,16 @@
                     document.getElementById("messages").innerText = request.responseText + "\n\n\n\n" // replace page content with returned text
                 }
             }
-            request.send() // send the request (that previous function will run when it is returned)
+            request.send() // send the request 
         }
-        function func2() {
-            // const request = new XMLHttpRequest(); // create new HTTP request
+        function send_chat() {
             var data = { // create object to send to server 
                 "type": "chat",
                 "name": user_name, // name field
                 "message": document.getElementById("message_input").value // message field
             };
-
-            // request.open('POST', '/message'); // open POST request
-            // request.setRequestHeader("Content-Type", "application/json"); // let server know to expect JSON
-            // request.send(JSON.stringify(data)); // send that bih
-            document.getElementById("message_input").value = ""
-            contentSocket.send(JSON.stringify(data)) // sends update through socket
-            func1(); // refresh content to see your message (should be run when request is returned but isnt)
+            document.getElementById("message_input").value = "" // delete the contet of the input field
+            contentSocket.send(JSON.stringify(data)) // send that bih
         }
     </script>
 </html>

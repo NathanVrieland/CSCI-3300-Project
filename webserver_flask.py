@@ -14,30 +14,23 @@ def handle_root():
     with open("index.html", 'r') as index:
         return index.read()
 
-# @app.route('/message', methods=['POST'])
-# def handle_message():
-#     message = request.get_json()
-    # with open("messages.txt", 'a') as messagefile:
-    #     messagefile.write(f"{message['name']}: {message['message']}\n")
-#     return "ok"
-#     emit('update', {'data': "nm"}, broadcast=True)
-
 @app.route('/content', methods=['GET'])
 def handle_content():
     with open ("messages.txt", "r") as messagefile:
         return messagefile.read()
 
-@socketio.on('connect')
+# websocket methods
+@socketio.on('connect') # at the moment just for logging / debuging 
 def handle_connect():
     print('websocket Client connected')
 
-@socketio.on('disconnect')
+@socketio.on('disconnect') # at the moment just for logging / debuging
 def handle_disconnect():
     print('websocket Client disconnected')
 
 @socketio.on('message')
 def handle_message(message):
-    # websocket message will be formatted as json strings, so use 
+    # websocket message will be formatted as arbitrary json strings, so use data["type"] to get type
     data = json.loads(message)
     if data["type"] == "chat":
         print(f"new chat from {data['name']}")
