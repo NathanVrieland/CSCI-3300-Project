@@ -37,7 +37,7 @@ def handle_message(message):
         with open("messages.txt", 'a') as messagefile:
             messagefile.write(f"{data['name']}: {data['message']}\n")
         # the emit's data field could potentially send back a checksum + the new message and the client could decide if it needs to get all the messages or not
-        emit('update', {'data': "nm"}, broadcast=True) 
+        emit('update', {'data': "ok"}, broadcast=True) 
 
 if __name__ == '__main__':
     socketio.run(app, port=port, host=host)
