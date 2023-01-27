@@ -45,7 +45,7 @@ func messageHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func contentHandler(w http.ResponseWriter, r *http.Request) { // handler for GET request requesting the messages in the chat
-	dat, err := os.ReadFile("messages.txt") 
+	dat, err := os.ReadFile("messages.txt")
 	check(err)
 	log.Printf(r.RemoteAddr + " " + r.Method)
 	w.Write(dat)
