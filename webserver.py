@@ -22,7 +22,7 @@ class MyServer(BaseHTTPRequestHandler):
             self.send_header("content-type", "text")
             self.end_headers()
             with open ("messages.txt", "r") as messagefile:
-                self.wfile.write(bytes(messagefile.read(), "utf-8"))
+                self.wfile.write(bytes(messagefile.read(), "utf-8")) # some comment
 
     def do_POST(self):
         if self.path == '/message':
