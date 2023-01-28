@@ -7,6 +7,7 @@
         <div>
             <p ID="messages"></p>
         </div>
+    </div ID="end_page"></div>
         <div class="bottom-element">
             <!-- <button class="bevel" id="refresh" onclick="get_chat()">refresh messages</button> -->
             <input class="bevel" type="text" ID="message_input" placeholder="message">
@@ -52,13 +53,14 @@
             grid-column: 2;
         }
         p {
-            font-size: large;
+            font-size: 20px;
             color: #e7e7e7;
         }
         body {
             background-color: #1e1e1e;
         }
         input {
+            font-size: 20px;
             margin-bottom: 3px;
             color: #e7e7e7;
             background-color: #000000;
@@ -93,6 +95,7 @@
                 send_chat()
             }
         })
+
         
         function get_chat() {
             const request = new XMLHttpRequest(); // create new HTTP request
@@ -104,6 +107,7 @@
             }
             request.send() // send the request 
         }
+
         function send_chat() {
             var data = { // create object to send to server 
                 "type": "chat",
