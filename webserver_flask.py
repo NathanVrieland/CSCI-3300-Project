@@ -1,6 +1,6 @@
 #this does the same thing as the other two webservers, but uses python flask library
 import json
-from flask import Flask, request
+from flask import Flask, request, send_file
 from flask_socketio import SocketIO, emit, send
 
 app = Flask(__name__)
@@ -16,7 +16,7 @@ def handle_root():
 
 @app.route('/content', methods=['GET'])
 def handle_content():
-    with open ("messages.txt", "r") as messagefile:
+    with open ("content/messages.txt", "r") as messagefile:
         return messagefile.read()
 
 # websocket methods
