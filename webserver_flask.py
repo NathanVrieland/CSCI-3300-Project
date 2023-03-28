@@ -48,12 +48,16 @@ def handle_disconnect():
 
 @socketio.on('message')
 def handle_message(message):
+    global mydb
     # websocket message will be formatted as arbitrary json strings, so use data["type"] to get type
     data = json.loads(message)
     if data["type"] == "chat":
+        userlookup = mydb.cursor()
+        userlookup.execute(f"SELECT ID FROM users where Name = {data['name']}")
+        print(f"user {userlookup.fetchall[0][0]} sent a message")
         print(f"new chat from {data['name']}")
-        with open("messages.txt", 'a') as messagefile:
-            messagefile.write(f"{data['name']}: {data['message']}\n")
+        # with open("messages.txt", 'a') as messagefile:
+        #     messagefile.write(f"{data['name']}: {data['message']}\n")
         # the emit's data field could potentially send back a checksum + the new message and the client could decide if it needs to get all the messages or not
         emit('update', {data['name']: data['message']}, broadcast=True) 
 
