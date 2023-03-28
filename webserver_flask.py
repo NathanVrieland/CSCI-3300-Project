@@ -26,9 +26,16 @@ def handle_root():
 @app.route('/content', methods=['GET'])
 def handle_content():
     global mydb
+    chat = "main_chat"
+    content = [] # list to build into chat
     cursor = mydb.cursor()
-    cursor.execute("SELECT * FROM main_chat")
-    return("".join([f"{str(x[2])[0:str(x[2]).index(' ')]}: {x[1]}" for x in cursor.fetchall()]))
+    userlookup = mydb.cursor()
+    cursor.execute(f"SELECT * FROM {chat}")
+    for i in cursor.fetchall():
+        user = userlookup.execute(f"SELECT Name FROM users where ID={i[3]}")
+        content.append(f"{user.fetchone()} on {i[2]}: {i[1]}")
+    return "".join(content)
+    
 
 # websocket methods
 @socketio.on('connect') # at the moment just for logging / debuging 
