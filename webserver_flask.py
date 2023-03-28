@@ -69,6 +69,7 @@ def handle_message(message):
         
         message_adder.execute(f"INSERT INTO main_chat (message, userID) VALUES ('{data['message']}', {userID});")
         message_adder.close()
+        mydb.commit()
 
         # with open("messages.txt", 'a') as messagefile:
         #     messagefile.write(f"{data['name']}: {data['message']}\n")
