@@ -1,5 +1,6 @@
 #this does the same thing as the other two webservers, but uses python flask library
 import json
+import mysql.connector
 from flask import Flask, request, send_file
 from flask_socketio import SocketIO, emit, send
 
