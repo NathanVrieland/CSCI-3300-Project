@@ -54,7 +54,7 @@ def handle_message(message):
     if data["type"] == "chat":
         userlookup = mydb.cursor()
         userlookup.execute(f"SELECT ID FROM users where Name='{data['name']}'")
-        print(f"user {userlookup.fetchall[0][0]} sent a message")
+        print(f"user {userlookup.fetchall()[0][0]} sent a message")
         print(f"new chat from {data['name']}")
         # with open("messages.txt", 'a') as messagefile:
         #     messagefile.write(f"{data['name']}: {data['message']}\n")
