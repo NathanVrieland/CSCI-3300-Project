@@ -28,7 +28,7 @@ def handle_content():
     global mydb
     cursor = mydb.cursor()
     cursor.execute("SELECT * FROM main_chat")
-    return("".join(cursor))
+    return("".join([x for x in cursor]))
 
 # websocket methods
 @socketio.on('connect') # at the moment just for logging / debuging 
