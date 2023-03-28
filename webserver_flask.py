@@ -53,7 +53,7 @@ def handle_message(message):
     data = json.loads(message)
     if data["type"] == "chat":
         userlookup = mydb.cursor()
-        userlookup.execute(f"SELECT ID FROM users where Name = {data['name']}")
+        userlookup.execute(f"SELECT ID FROM users where Name='{data['name']}'")
         print(f"user {userlookup.fetchall[0][0]} sent a message")
         print(f"new chat from {data['name']}")
         # with open("messages.txt", 'a') as messagefile:
