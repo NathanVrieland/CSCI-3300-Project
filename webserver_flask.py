@@ -10,6 +10,14 @@ socketio = SocketIO(app)
 host = "0.0.0.0" # 0.0.0.0 to host publically
 port = 80 # 80 is default for http
 
+mydb = mysql.connector.connect(
+  host="localhost",                              # Default host
+  user="admin",                                   # Default user
+  password="software_savants",                     # Replace with your password
+  database="APP"                                   # If you want to connect to a specific database
+)
+
+
 @app.route('/')
 def handle_root():
     with open("index.html", 'r') as index:
@@ -17,8 +25,10 @@ def handle_root():
 
 @app.route('/content', methods=['GET'])
 def handle_content():
-    with open ("messages.txt", "r") as messagefile:
-        return messagefile.read()
+    global mydb
+    cursor = mydb.cursor()
+    cursor.execute("SELECT * FROM main_chat")
+    return("".join(cursor))
 
 # websocket methods
 @socketio.on('connect') # at the moment just for logging / debuging 
