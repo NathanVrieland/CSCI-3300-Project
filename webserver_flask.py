@@ -17,6 +17,7 @@ mydb = mysql.connector.connect(
   database="APP"                                   # If you want to connect to a specific database
 )
 
+print(type(mydb))
 
 @app.route('/')
 def handle_root():
