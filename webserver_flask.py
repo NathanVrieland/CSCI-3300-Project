@@ -57,12 +57,13 @@ def handle_message(message):
         # lookup user 
         userlookup.execute(f"SELECT ID FROM users where Name='{data['name']}'")
         try:
-            print(f"user {userlookup.fetchall()[0][0]} ({data['name']}) sent a message")
+            userID = userlookup.fetchall()[0][0]
+            print(f"user {userID} ({data['name']}) sent a message")
         except IndexError:
             print(f"user {data['name']} not found")
             return
         
-        message_adder.execute(f"INSERT INTO main_chat (message, userID) VALUES ('{data['message']}', {userlookup.fetchall()[0][0]});")
+        message_adder.execute(f"INSERT INTO main_chat (message, userID) VALUES ('{data['message']}', {userID});")
 
         # with open("messages.txt", 'a') as messagefile:
         #     messagefile.write(f"{data['name']}: {data['message']}\n")
