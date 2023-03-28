@@ -53,9 +53,14 @@ def handle_message(message):
     data = json.loads(message)
     if data["type"] == "chat":
         userlookup = mydb.cursor()
+        message_adder = mydb.cursor()
+        # lookup user 
         userlookup.execute(f"SELECT ID FROM users where Name='{data['name']}'")
-        print(f"user {userlookup.fetchall()[0][0]} sent a message")
-        print(f"new chat from {data['name']}")
+        try:
+            print(f"user {userlookup.fetchall()[0][0]} ({data['name']}) sent a message")
+        except IndexError(e):
+            print("user not found")
+            return
         # with open("messages.txt", 'a') as messagefile:
         #     messagefile.write(f"{data['name']}: {data['message']}\n")
         # the emit's data field could potentially send back a checksum + the new message and the client could decide if it needs to get all the messages or not
