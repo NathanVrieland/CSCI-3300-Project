@@ -28,12 +28,12 @@ def handle_content():
     global mydb
     cursor = mydb.cursor()
     cursor.execute("SELECT * FROM main_chat")
-    return("".join([f"{x[2][0:x[2].index(' ')]}: {x[1]}" for x in cursor.fetchall()]))
+    return("".join([f"{x[2][0:str(x[2]).index(' ')]}: {x[1]}" for x in cursor.fetchall()]))
 
 # websocket methods
 @socketio.on('connect') # at the moment just for logging / debuging 
 def handle_connect():
-    print('websocket Client connected')
+    print('websocket Client connected'd)
 
 @socketio.on('disconnect') # at the moment just for logging / debuging
 def handle_disconnect():
