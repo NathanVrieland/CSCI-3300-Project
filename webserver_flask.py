@@ -58,7 +58,7 @@ def handle_message(message):
         userlookup.execute(f"SELECT ID FROM users where Name='{data['name']}'")
         try:
             print(f"user {userlookup.fetchall()[0][0]} ({data['name']}) sent a message")
-        except IndexError(e):
+        except IndexError:
             print("user not found")
             return
         # with open("messages.txt", 'a') as messagefile:
