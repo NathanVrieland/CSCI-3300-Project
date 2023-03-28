@@ -33,7 +33,7 @@ def handle_content():
     cursor.execute(f"SELECT * FROM {chat}")
     for i in cursor.fetchall():
         userlookup.execute(f"SELECT Name FROM users where ID={i[3]}")
-        content.append(f"{userlookup.fetchall()[0][0]} on {i[2]}: {i[1]}")
+        content.append(f"{userlookup.fetchall()[0][0]} on {i[2]}: {i[1]}\n")
     return "".join(content)
     
 
