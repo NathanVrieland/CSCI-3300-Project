@@ -33,7 +33,7 @@ def handle_content():
 # websocket methods
 @socketio.on('connect') # at the moment just for logging / debuging 
 def handle_connect():
-    print('websocket Client connected'd)
+    print('websocket Client connected')
 
 @socketio.on('disconnect') # at the moment just for logging / debuging
 def handle_disconnect():
