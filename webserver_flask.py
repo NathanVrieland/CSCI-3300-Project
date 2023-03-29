@@ -31,7 +31,7 @@ def handle_login():
       
 @app.route('/authenticate', methods=['POST'])
 def authenticate():
-    print("\033[92m###### got authentication request ####\033[0m")
+    print("\033[92m###### got authentication request ######\033[0m")
     # gets data from login.html
     json_data = request.get_json()
     username = json_data['username']
