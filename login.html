@@ -10,16 +10,16 @@
 </h1>
 <form name="login">
     <label>
-        <input type="text" name="username" placeholder="Username"/>
-        <input type="text" name="password" placeholder="Password"/>
-        <input type="submit" onclick="send_login(this.form)">
+        <input id="username" type="text" name="username" placeholder="Username"/>
+        <input id="password" type="text" name="password" placeholder="Password"/>
+        <input type="submit" onclick="send_login()">
     </label>
 </form>
 <script lang="JavaScript">
-    function send_login(form) {
+    function send_login() {
         const data = {
-            "username": form.username.value,
-            "password": form.password.value
+            "username": document.getElementById("username").value,
+            "password": document.getElementById("password").value
         }
         const xhr = new XMLHttpRequest()
         xhr.open('POST', '/authenticate')
