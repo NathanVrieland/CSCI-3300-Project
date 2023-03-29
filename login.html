@@ -22,7 +22,7 @@
             "password": form.password.value
         }
         const xhr = new XMLHttpRequest()
-        xhr.open('POST', '/login')
+        xhr.open('POST', '/authenticate')
         xhr.setRequestHeader('Content-Type', 'application/json')
         /*
         xhr.onload = function() {
