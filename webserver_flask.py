@@ -31,12 +31,12 @@ def handle_login():
       
 @app.route('/authenticate', methods=['POST'])
 def authenticate():
-    print("###### got authentication request ####")
+    print("\033[92m###### got authentication request ####\033[0m")
     # gets data from login.html
     json_data = request.get_json()
     username = json_data['username']
     password = json_data['password']
-    print(f"###### {username=} {password=} ######")
+    print(f"\033[92m###### {username=} {password=} ######\033[0m")
     mycursor = mydb.cursor()
     login_obj = Login(mycursor, username, password)
     if login_obj.is_user() and login_obj.get_match():
