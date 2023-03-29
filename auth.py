@@ -4,7 +4,7 @@ import mysql.connector
 
 
 class Login:
-    def __init__(self, cursor, username: str, password: str):
+    def __init__(self, cursor: mysql.connector.cursor.MySQLCursor, username: str, password: str):
         self.cursor = cursor
         self.username = username
         self.key = get_key(username, password)
