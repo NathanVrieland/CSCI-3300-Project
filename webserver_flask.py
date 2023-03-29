@@ -35,6 +35,7 @@ def authenticate():
     json_data = request.get_json()
     username = json_data['username']
     password = json_data['password']
+    print(f"###### {username=} {password=} ######")
     mycursor = mydb.cursor()
     login_obj = Login(mycursor, username, password)
     if login_obj.is_user() and login_obj.get_match():
