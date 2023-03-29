@@ -28,10 +28,10 @@
         /*
         xhr.onload = function() {
             // handle response
-        };
-        xhr.onerror = function() {
-            // handle error
         }; */
+        xhr.onerror = function() {
+            document.write("login failed")
+        }; 
         xhr.send(JSON.stringify(data))
     }
 </script>
