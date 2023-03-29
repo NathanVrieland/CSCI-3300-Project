@@ -12,15 +12,14 @@
     <label>
         <input id="username" type="text" name="username" placeholder="Username"/>
         <input id="password" type="text" name="password" placeholder="Password"/>
-        <input type="submit" onclick="send_login()">
+        <input type="submit" onclick="send_login(this.form)">
     </label>
 </form>
 <script lang="JavaScript">
-    function send_login() {
-        console.log("test")
+    function send_login(form) {
         const data = {
-            "username": document.getElementById("username").value,
-            "password": document.getElementById("password").value
+            "username": form.username.value,
+            "password": form.password.value
         }
         const xhr = new XMLHttpRequest()
         xhr.open('POST', '/authenticate')
