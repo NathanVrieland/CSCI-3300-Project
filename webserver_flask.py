@@ -22,7 +22,13 @@ print(type(mydb))
 
 @app.route('/')
 def handle_root():
+    #TODO check if the client has username browser cookies, and serve login if they do not
     with open("index.html", 'r') as index:
+        return index.read()
+
+@app.route('/login')
+def handle_root():
+    with open("login.html", 'r') as index:
         return index.read()
       
 @app.route('/authenticate', methods=['POST'])
@@ -34,7 +40,7 @@ def authenticate():
     mycursor = mydb.cursor()
     login_obj = Login(mycursor, username, password)
     if login_obj.is_user() and login_obj.get_match():
-      pass
+        pass
         '''
         calls handle_root() or whatever method we are using for the actual chat
         need some way to pass user account details

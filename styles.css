@@ -1,0 +1,54 @@
+.bevel {
+    border-radius: 10px;
+    outline: 0px;
+}
+.bottom-element {
+    background-color: #545454;
+    box-shadow: white;
+    display: grid;
+    grid-auto-columns: 10fr 50px ;
+    width: 75%;
+    position: fixed;
+    left:12.5%;
+    bottom: 0;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+    border-radius: 10px;
+}
+.center {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+}
+#message_input {
+    grid-column: 1;
+}
+#send {
+    grid-column: 2;
+}
+p {
+    font-size: 20px;
+    color: #e7e7e7;
+}
+body {
+    background-color: #1e1e1e;
+}
+input {
+    font-size: 20px;
+    font-family: 'Calibri';
+    margin-bottom: 3px;
+    color: #e7e7e7;
+    background-color: #000000;
+    height: 50px;
+}
+button {
+    margin-top: 3px;
+    height: 50px;
+    background-color: #e7e7e7;
+}
+button:hover {
+    fill: white;
+    background-color: black;
+    color: white;
+}
