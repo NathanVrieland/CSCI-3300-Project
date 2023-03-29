@@ -23,6 +23,12 @@ print(type(mydb))
 def handle_root():
     with open("index.html", 'r') as index:
         return index.read()
+      
+@app.route('/login', methods=['POST'])
+def login():
+    json_data = request.get_json()
+    username = json_data['username']
+    password = json_data['password']
 
 @app.route('/content', methods=['GET'])
 def handle_content():
