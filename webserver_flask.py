@@ -53,6 +53,7 @@ def handle_content():
     content = [] # list to build into chat
     cursor = mydb.cursor()
     userlookup = mydb.cursor()
+    print(type(cursor))
     cursor.execute(f"SELECT * FROM {chat}")
     for i in cursor.fetchall():
         userlookup.execute(f"SELECT Name FROM users where ID={i[3]}")
