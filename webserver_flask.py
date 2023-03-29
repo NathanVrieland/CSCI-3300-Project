@@ -26,9 +26,12 @@ def handle_root():
       
 @app.route('/login', methods=['POST'])
 def login():
+    # gets data from login.html
     json_data = request.get_json()
     username = json_data['username']
     password = json_data['password']
+    # includes call to login.py object to authenticate, then directs user to index.html
+    # not yet implemented
 
 @app.route('/content', methods=['GET'])
 def handle_content():
