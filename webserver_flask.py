@@ -24,14 +24,19 @@ def handle_root():
     with open("index.html", 'r') as index:
         return index.read()
       
-@app.route('/login', methods=['POST'])
-def login():
+@app.route('/authenticate', methods=['POST'])
+def authenticate():
     # gets data from login.html
     json_data = request.get_json()
     username = json_data['username']
     password = json_data['password']
-    # includes call to login.py object to authenticate, then directs user to index.html
-    # not yet implemented
+    mycursor = mydb.cursor()
+    login_obj = Login(mycursor, username, password)
+    if login_obj.is_user() and login_obj.get_match():
+        '''
+        calls handle_root() or whatever method we are using for the actual chat
+        need some way to pass user account details
+        '''
 
 @app.route('/content', methods=['GET'])
 def handle_content():
