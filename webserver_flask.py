@@ -34,6 +34,7 @@ def authenticate():
     mycursor = mydb.cursor()
     login_obj = Login(mycursor, username, password)
     if login_obj.is_user() and login_obj.get_match():
+      pass
         '''
         calls handle_root() or whatever method we are using for the actual chat
         need some way to pass user account details
