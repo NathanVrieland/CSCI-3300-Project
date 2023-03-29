@@ -18,8 +18,6 @@ mydb = mysql.connector.connect(
   database="APP"                                   # If you want to connect to a specific database
 )
 
-print(type(mydb))
-
 @app.route('/')
 def handle_root():
     #TODO check if the client has username browser cookies, and serve login if they do not
@@ -53,7 +51,6 @@ def handle_content():
     content = [] # list to build into chat
     cursor = mydb.cursor()
     userlookup = mydb.cursor()
-    print(type(cursor))
     cursor.execute(f"SELECT * FROM {chat}")
     for i in cursor.fetchall():
         userlookup.execute(f"SELECT Name FROM users where ID={i[3]}")
