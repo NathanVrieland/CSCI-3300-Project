@@ -49,7 +49,7 @@ def authenticate():
 @app.route('/content', methods=['GET'])
 def handle_content():
     global mydb
-    chat = "main_chat"
+    chat = "messages"
     content = [] # list to build into chat
     cursor = mydb.cursor()
     userlookup = mydb.cursor()
@@ -91,7 +91,7 @@ def handle_message(message):
             userlookup.close()
             return
         
-        message_adder.execute(f"INSERT INTO main_chat (message, userID) VALUES ('{data['message']}', {userID});")
+        message_adder.execute(f"INSERT INTO messages (message, userID, groupchat) VALUES ('{data['message']}', {userID}, 1);")
         message_adder.close()
         mydb.commit() # this pushes changes to the database 
         emit('update', {data['name']: data['message']}, broadcast=True) 
