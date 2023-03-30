@@ -132,7 +132,7 @@
             request.open('GET', '/groups/?user=' + user_name)
             request.onreadystatechange = () => {
                 if (request.readyState === 4 && request.status === 200) {
-                    console.log(request.responseText[0][0])
+                    console.log(JSON.parse(request.responseText))
                 }
             }
             request.send()
