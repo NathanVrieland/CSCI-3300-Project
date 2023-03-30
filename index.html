@@ -9,6 +9,10 @@
         </div>
     </div ID="end_page"></div>
         <div class="bottom-element">
+            <select id="groupselect">
+                <option value="1">main</option>
+                <option value="2">project</option>
+            </select>
             <!-- <button class="bevel" id="refresh" onclick="get_chat()">refresh messages</button> -->
             <input class="bevel" type="text" ID="message_input" placeholder="message">
             <button class="bevel" id="send" onclick="send_chat()">
@@ -27,7 +31,7 @@
             background-color: #545454;
             box-shadow: white;
             display: grid;
-            grid-auto-columns: 10fr 50px ;
+            grid-auto-columns: 50px 10fr 50px;
             width: 75%;
             position: fixed;
             left:12.5%;
@@ -42,11 +46,14 @@
             margin-left: auto;
             margin-right: auto;
         }
-        #message_input {
+        #groupselect {
             grid-column: 1;
         }
-        #send {
+        #message_input {
             grid-column: 2;
+        }
+        #send {
+            grid-column: 3;
         }
         p {
             font-size: 20px;
@@ -96,8 +103,9 @@
 
         
         function get_chat() {
+            current_groupchat = document.getElementById("groupselect").value
             const request = new XMLHttpRequest(); // create new HTTP request
-            request.open('GET', '/content'); // request /content
+            request.open('GET', '/content/?groupchat=' + current_groupchat); // request /content
             request.onreadystatechange = function() { // runs when request is returned 
                 if (request.readyState === 4 && request.status === 200) { // make sure return suceeded 
                     document.getElementById("messages").innerText = request.responseText + "\n\n\n\n" // replace page content with returned text
