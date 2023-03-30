@@ -97,7 +97,7 @@
         
         function get_chat() {
             const request = new XMLHttpRequest(); // create new HTTP request
-            request.open('GET', '/content'); // request /content
+            request.open('GET', '/content/1'); // request /content
             request.onreadystatechange = function() { // runs when request is returned 
                 if (request.readyState === 4 && request.status === 200) { // make sure return suceeded 
                     document.getElementById("messages").innerText = request.responseText + "\n\n\n\n" // replace page content with returned text
