@@ -118,7 +118,8 @@
             var data = { // create object to send to server 
                 "type": "chat",
                 "name": user_name, // name field
-                "message": document.getElementById("message_input").value // message field
+                "message": document.getElementById("message_input").value, // message field
+                "groupchat": document.getElementById("groupselect").value
             };
             document.getElementById("message_input").value = "" // delete the contet of the input field
             contentSocket.send(JSON.stringify(data)) // send that bih

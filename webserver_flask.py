@@ -92,7 +92,7 @@ def handle_message(message):
             userlookup.close()
             return
         
-        message_adder.execute(f"INSERT INTO messages (message, userID, groupchat) VALUES ('{data['message']}', {userID}, 1);")
+        message_adder.execute(f"INSERT INTO messages (message, userID, groupchat) VALUES ('{data['message']}', {userID}, {data['groupchat']});")
         message_adder.close()
         mydb.commit() # this pushes changes to the database 
         emit('update', {data['name']: data['message']}, broadcast=True) 
