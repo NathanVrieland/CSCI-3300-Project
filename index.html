@@ -21,7 +21,6 @@
             </svg>
             </button>
         </div>
-        <button onclick="populate_groupselector()">test</button>
     </body>
     <style>
         .bevel {
@@ -133,7 +132,7 @@
             request.open('GET', '/groups/?user=' + user_name)
             request.onreadystatechange = () => {
                 if (request.readyState === 4 && request.status === 200) {
-                    console.log(request.responseText)
+                    console.log(request.responseText[0][0])
                 }
             }
             request.send()
