@@ -10,8 +10,7 @@
     </div ID="end_page"></div>
         <div class="bottom-element">
             <select id="groupselect" onchange="get_chat()">
-                <option value="1">main</option>
-                <option value="2">project</option>
+                
             </select>
             <!-- <button class="bevel" id="refresh" onclick="get_chat()">refresh messages</button> -->
             <input class="bevel" type="text" ID="message_input" placeholder="message">
@@ -132,7 +131,13 @@
             request.open('GET', '/groups/?user=' + user_name)
             request.onreadystatechange = () => {
                 if (request.readyState === 4 && request.status === 200) {
-                    console.log(JSON.parse(request.responseText)[0])
+                    groups = JSON.parse(request.responseText)
+                    selector = document.getElementById("groupselector")
+                    instring = ""
+                    for (let i = 0; i < groups.length; i++) {
+                        instring += `<option value=${groups[i][0]}>${groups[i][1]}</option>`
+                    }
+                    selector.innerHTML = instring
                 }
             }
             request.send()
