@@ -86,6 +86,7 @@
         let user_name = prompt("please enter your name")
         
         get_chat()
+        populate_groupselector()
         // create contentsocket websocket and connect it
         var contentSocket = io(); // create socket
         contentSocket.on('update', (msg) => { // when 'update' gets sent from the server
@@ -124,6 +125,17 @@
             document.getElementById("message_input").value = "" // delete the contet of the input field
             contentSocket.send(JSON.stringify(data)) // send that bih
             
+        }
+
+        function populate_groupselector() {
+            const request = new XMLHttpRequest()
+            request.open('GET', '/groups/?user=' + user_name)
+            request.onreadystatechange = () => {
+                if (request.readyState === 4 && request.status === 200) {
+                    conssole.log(request.responseText)
+                }
+            request.send()
+            }
         }
     </script>
 </html>
