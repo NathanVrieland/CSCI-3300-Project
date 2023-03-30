@@ -84,8 +84,10 @@
     <script>
         let user_name = prompt("please enter your name")
         
-        get_chat()
-        populate_groupselector()
+        document.addEventListener("DOMContentLoaded", () => {
+            populate_groupselector()
+        })
+        
         // create contentsocket websocket and connect it
         var contentSocket = io(); // create socket
         contentSocket.on('update', (msg) => { // when 'update' gets sent from the server
