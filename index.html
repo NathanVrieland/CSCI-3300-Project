@@ -87,7 +87,7 @@
         document.addEventListener("DOMContentLoaded", () => {
             populate_groupselector()
         })
-        
+
         // create contentsocket websocket and connect it
         var contentSocket = io(); // create socket
         contentSocket.on('update', (msg) => { // when 'update' gets sent from the server
@@ -143,6 +143,7 @@
                 }
             }
             request.send()
+            get_chat()
         }
     </script>
 </html>
