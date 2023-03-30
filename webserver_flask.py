@@ -49,12 +49,11 @@ def authenticate():
 @app.route('/content/', methods=['GET'])
 def handle_content():
     global mydb
-    chat = "messages"
     groupchat = request.args.get("groupchat")
     content = [] # list to build into chat
     cursor = mydb.cursor()
     userlookup = mydb.cursor()
-    cursor.execute(f"SELECT * FROM {chat} where groupchat={groupchat}")
+    cursor.execute(f"SELECT * FROM messages where groupchat={groupchat}")
     for i in cursor.fetchall():
         userlookup.execute(f"SELECT Name FROM users where ID={i[3]}")
         content.append(f"{userlookup.fetchall()[0][0]} on {i[2]}: {i[1]}\n")
