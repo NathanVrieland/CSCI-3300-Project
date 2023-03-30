@@ -132,7 +132,7 @@
             request.onreadystatechange = () => {
                 if (request.readyState === 4 && request.status === 200) {
                     groups = JSON.parse(request.responseText)
-                    selector = document.getElementById("groupselector")
+                    selector = document.getElementById("groupselect")
                     instring = ""
                     for (let i = 0; i < groups.length; i++) {
                         instring += `<option value=${groups[i][0]}>${groups[i][1]}</option>`
