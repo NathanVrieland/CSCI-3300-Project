@@ -57,6 +57,7 @@ def login():
     mycursor = mydb.cursor()
     login_obj = Login(mycursor, username, password)
     login_obj.login()       # logs in user
+    return "ok"
 
     
 @app.route('/content/', methods=['GET'])
