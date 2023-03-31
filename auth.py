@@ -104,6 +104,7 @@ class Acc_change(Existing_user):
 
     # changes password
     def change_password(self, new_password) -> None:
+        # salt must be changed when updating password
         salt = generate_salt()
         key = generate_key(new_password, salt)
         self.cursor.execute(f'UPDATE user SET Password = {key}, Salt = {salt}, WHERE ID = {self.user_id}')
