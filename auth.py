@@ -65,11 +65,13 @@ class Login(Authenticator, Existing_user):
         self.key = generate_key(self.password, self.salt)
 
     # checks that key matches key in database
+# checks that key matches key in database
     def is_match(self) -> bool:
         self.cursor.execute(f'SELECT password FROM users WHERE Name = "{self.username}"')
         password = self.cursor.fetchone()[0]
-        newpw = generate_key(password, self.salt)
-        print(f'Key: {self.key}\nNewpw: {newpw}')        # compares key as a string to the password in database
+        self.cursor.execute(f'UPDATE user SET Password = {password}, Salt = {self.get_salt()}, WHERE ID = {self.get_id}')
+        print(f'Key: {self.key}\nPassword: {bytes(password, encoding="utf-8")}')
+        # compares key as a string to the password in database
         if self.password == password:
             return True
         else:
