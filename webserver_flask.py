@@ -29,8 +29,20 @@ def handle_login():
     with open("login.html", 'r') as index:
         return index.read()
       
-@app.route('/authenticate', methods=['POST'])
-def authenticate():
+@app.route('/signup', methods=['POST'])
+def signup():
+    print("\033[92m###### got authentication request ######\033[0m")
+    json_data = request.get_json()
+    username = json_data['username']
+    password = json_data['password']
+    print(f"\033[92m###### {username=} {password=} ######\033[0m")
+    mycursor = mydb.cursor()
+    signup_obj = Signup(mycursor, username, password)
+    signup_obj.signup()     # creates new user account
+
+
+@app.route('/login', methods=['POST'])
+def login():
     print("\033[92m###### got authentication request ######\033[0m")
     # gets data from login.html
     json_data = request.get_json()
@@ -39,12 +51,7 @@ def authenticate():
     print(f"\033[92m###### {username=} {password=} ######\033[0m")
     mycursor = mydb.cursor()
     login_obj = Login(mycursor, username, password)
-    if login_obj.is_user() and login_obj.get_match():
-        pass
-        '''
-        calls handle_root() or whatever method we are using for the actual chat
-        need some way to pass user account details
-        '''
+    login_obj.login()       # logs in user
 
 @app.route('/content/', methods=['GET'])
 def handle_content():
