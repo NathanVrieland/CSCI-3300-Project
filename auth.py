@@ -69,7 +69,7 @@ class Login(Authenticator, Existing_user):
         self.cursor.execute(f'SELECT password FROM users WHERE Name = "{self.username}"')
         password = self.cursor.fetchone()[0]
         # compares key as a string to the password in database
-        print(self.key)
+        print(self.key.decode())
         if self.key.decode() == password:
             return True
         else:
