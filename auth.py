@@ -80,13 +80,16 @@ class Login(Authenticator, Existing_user):
                 print("success")
                 # redirect(location='/index.html', code=302)
                 # TODO: send request with user information
+                return None
             else:
                 print("fail")
                 # redirect(location='/login.html', code=403)
                 # TODO: send request that password was bad
+                return None
         else:
             redirect(location='/login.html', code=403)
             # TODO: send request that user does not exist
+            return None
 
 
 # a login object should be called and used before creating an Acc_change object
