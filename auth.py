@@ -77,10 +77,12 @@ class Login(Authenticator, Existing_user):
     def login(self) -> None:
         if self.is_user():
             if self.is_match():
-                redirect(location='/index.html', code=302)
+                print("success")
+                # redirect(location='/index.html', code=302)
                 # TODO: send request with user information
             else:
-                redirect(location='/login.html', code=403)
+                print("fail")
+                # redirect(location='/login.html', code=403)
                 # TODO: send request that password was bad
         else:
             redirect(location='/login.html', code=403)
