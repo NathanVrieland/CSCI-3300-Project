@@ -70,6 +70,7 @@ class Login(Authenticator, Existing_user):
         self.cursor.execute(f'SELECT password FROM users WHERE Name = "{self.username}"')
         password = self.cursor.fetchone()[0]
         self.cursor.execute(f'UPDATE user SET Password = {password}, Salt = {self.get_salt()}, WHERE ID = {self.get_id}')
+        self.cursor.commit()
         print(f'Key: {self.key}\nPassword: {bytes(password, encoding="utf-8")}')
         # compares key as a string to the password in database
         if self.password == password:
