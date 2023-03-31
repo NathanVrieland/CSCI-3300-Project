@@ -33,12 +33,12 @@ class Existing_user:
     # returns id from database as string
     def get_id(self) -> str:
         self.cursor.execute(f'SELECT ID from users WHERE Name = "{self.username}"')
-        id = self.cursor.fetchone()
+        id = self.cursor.fetchone()[0]
         return id
 
     def get_salt(self) -> bytes:
         self.cursor.execute(f'SELECT salt FROM users WHERE ID = "{self.id}"')
-        salt = self.cursor.fetchone()
+        salt = self.cursor.fetchone()[0]
         return salt.encode('utf-8')
 
 
