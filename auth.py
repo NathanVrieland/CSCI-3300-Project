@@ -69,8 +69,7 @@ class Login(Authenticator, Existing_user):
         self.cursor.execute(f'SELECT password FROM users WHERE Name = "{self.username}"')
         password = self.cursor.fetchone()[0]
         newpw = generate_key(password, self.salt)
-        print(f'Key: {self.key}\nPassword: {bytes(password, encoding="utf-8")}')
-        # compares key as a string to the password in database
+        print(f'Key: {self.key}\nNewpw: {newpw}')        # compares key as a string to the password in database
         if self.password == password:
             return True
         else:
