@@ -27,11 +27,11 @@ def handle_root():
         return index.read()
 
       
-'''@app.route('/login')
+@app.route('/login', methods=["GET"])
 def handle_login():
     with open("login.html", 'r') as index:
         return index.read()
-'''
+
       
   
 @app.route('/signup', methods=['POST'])
