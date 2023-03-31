@@ -37,7 +37,7 @@ class Existing_user:
         return id
 
     def get_salt(self) -> bytes:
-        self.cursor.execute(f'SELECT salt FROM users WHERE ID = {self.id}')
+        self.cursor.execute(f'SELECT salt FROM users WHERE ID = "{self.id}"')
         salt = self.cursor.fetchone()
         return salt.encode('utf-8')
 
