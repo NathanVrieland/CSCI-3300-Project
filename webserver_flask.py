@@ -54,8 +54,7 @@ def login():
     username = json_data['username']
     password = json_data['password']
     print(f"\033[92m###### {username=} {password=} ######\033[0m")
-    mycursor = mydb.cursor()
-    login_obj = Login(mycursor, username, password)
+    login_obj = Login(mydb, username, password)
     login_obj.login()       # logs in user
     return "ok"
 
