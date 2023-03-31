@@ -1,125 +1,134 @@
-#this does the same thing as the other two webservers, but uses python flask library
-import json
+import os
+import hashlib
 import mysql.connector
-from flask import Flask, request, send_file
-from flask_socketio import SocketIO, emit, send
-from auth import Login
+from flask import redirect
 
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'secret!'
-socketio = SocketIO(app)
-host = "0.0.0.0" # 0.0.0.0 to host publically
-port = 80 # 80 is default for http
+# parent class for authenticating
+class Authenticator:
 
-mydb = mysql.connector.connect(
-  host="localhost",                              # Default host
-  user="APP",                                   # Default user
-  password="password",                     # Replace with your password
-  database="APP"                                   # If you want to connect to a specific database
-)
+    def __init__(self, db, username: str, password: str):
+        self.db = db
+        self.cursor = self.db.cursor()
+        self.username = username
+        self.password = password
 
-
-@app.route('/')
-def handle_root():
-    #TODO check if the client has username browser cookies, and serve login if they do not
-    with open("index.html", 'r') as index:
-        return index.read()
-
-      
-@app.route('/login', methods=["GET"])
-def handle_login():
-    with open("login.html", 'r') as index:
-        return index.read()
-
-      
-  
-@app.route('/signup', methods=['POST'])
-def signup():
-    print("\033[92m###### got authentication request ######\033[0m")
-    json_data = request.get_json()
-    username = json_data['username']
-    password = json_data['password']
-    print(f"\033[92m###### {username=} {password=} ######\033[0m")
-    mycursor = mydb.cursor()
-    signup_obj = Signup(mycursor, username, password)
-    signup_obj.signup()     # creates new user account
+    # returns true if there is a name of username in the user table
+    def is_user(self) -> bool:
+        self.cursor.execute(f'SELECT Name FROM users WHERE Name = "{self.username}"')
+        # checks if anything was fetched
+        if len(self.cursor.fetchone()) != 0:
+            return True
+        else:
+            return False
 
 
-@app.route('/login', methods=['POST'])
-def login():
-    print("\033[92m###### got authentication request ######\033[0m")
-    # gets data from login.html
-    json_data = request.get_json()
-    username = json_data['username']
-    password = json_data['password']
-    print(f"\033[92m###### {username=} {password=} ######\033[0m")
-    mycursor = mydb.cursor()
-    login_obj = Login(mycursor, username, password)
-    login_obj.login()       # logs in user
-    return "ok"
+# parent class for getting information from existing users
+class Existing_user:
 
-    
-@app.route('/content/', methods=['GET'])
-def handle_content():
-    global mydb
-    groupchat = request.args.get("groupchat")
-    content = [] # list to build into chat
-    cursor = mydb.cursor()
-    userlookup = mydb.cursor()
-    cursor.execute(f"SELECT * FROM messages where groupchat={groupchat}")
-    for i in cursor.fetchall():
-        userlookup.execute(f"SELECT Name FROM users where ID={i[3]}")
-        content.append(f"{userlookup.fetchall()[0][0]} on {i[2]}: {i[1]}\n")
-    userlookup.close()
-    cursor.close()
-    return "".join(content)
-    
-    
-@app.route('/groups/', methods=['GET'])
-def handle_groups():
-    global mydb
-    user_name = request.args.get("user")
-    cursor = mydb.cursor()
-    cursor.execute(f"select g.ID, g.Name from is_in join users u on is_in.user_ID = u.ID join groupchats g on g.ID = is_in.chat_ID where u.Name = '{user_name}'")
-    return cursor.fetchall()
+    def __init__(self, db, username: str):
+        self.db = db
+        self.cursor = self.db.cursor()
+        self.username = username
+        self.id = self.get_id()
 
-  
-# websocket methods
-@socketio.on('connect') # at the moment just for logging / debuging 
-def handle_connect():
-    print('websocket Client connected')
+    # returns id from database as string
+    def get_id(self) -> str:
+        self.cursor.execute(f'SELECT ID from users WHERE Name = "{self.username}"')
+        id = self.cursor.fetchone()[0]
+        return id
 
-    
-@socketio.on('disconnect') # at the moment just for logging / debuging
-def handle_disconnect():
-    print('websocket Client disconnected')
+    def get_salt(self) -> bytes:
+        self.cursor.execute(f'SELECT salt FROM users WHERE ID = "{self.id}"')
+        salt = self.cursor.fetchone()[0]
+        return salt.encode('utf-8')
 
-    
-@socketio.on('message')
-def handle_message(message):
-    global mydb
-    # websocket message will be formatted as arbitrary json strings, so use data["type"] to get type
-    data = json.loads(message)
-    if data["type"] == "chat":
-        userlookup = mydb.cursor()
-        message_adder = mydb.cursor()
-        # lookup user 
-        userlookup.execute(f"SELECT ID FROM users where Name='{data['name']}'")
-        try: # make sure the user exists and return if not
-            userID = userlookup.fetchall()[0][0] # fetchall() returns a list of tupeles, so we just need [0][0]
-            print(f"user {userID} ({data['name']}) sent a message")
-            userlookup.close()
-        except IndexError:
-            print(f"user {data['name']} not found")
-            message_adder.close()
-            userlookup.close()
-            return
-        
-        message_adder.execute(f"INSERT INTO messages (message, userID, groupchat) VALUES ('{data['message']}', {userID}, {data['groupchat']});")
-        message_adder.close()
-        mydb.commit() # this pushes changes to the database 
-        emit('update', {data['name']: data['message']}, broadcast=True) 
 
-if __name__ == '__main__':
-    socketio.run(app, port=port, host=host)
+# signup handler
+class Signup(Authenticator):
+    def __init__(self, db, username: str, password: str):
+        super().__init__(db, username, password)
+
+    def signup(self):
+        salt = os.urandom(32)
+        key = generate_key(self.password, salt)
+        self.cursor.execute(f'INSERT INTO users VALUES ("{self.username}", "{key}", "{salt}")')
+        self.db.commit()
+        redirect('/login.html', code=302)
+
+
+# login handler
+class Login(Authenticator, Existing_user):
+
+    def __init__(self, db, username: str, password: str):
+        Authenticator.__init__(self, db, username, password)
+        Existing_user.__init__(self, db, username)
+        salt = self.get_salt()
+        self.key = generate_key(self.password, salt)
+
+    # checks that key matches key in database
+    def is_match(self) -> bool:
+        self.cursor.execute(f'SELECT password FROM users WHERE Name = "{self.username}"')
+        password = self.cursor.fetchone()[0]
+        self.cursor.execute(f'UPDATE users SET password = "{generate_key(password, self.get_salt())}", salt = "{generate_salt(self.cursor)}" WHERE Name = "{self.username}"')
+        self.db.commit()
+        print(f'Key: {self.key}\nPassword: {bytes(password, encoding="utf-8")}')
+        # compares key as a string to the password in database
+        if self.password == password:
+            return True
+        else:
+            return False
+
+    def login(self) -> None:
+        if self.is_user():
+            if self.is_match():
+                print("********** success **********")
+                # redirect(location='/index.html', code=302)
+                # TODO: send request with user information
+            else:
+                print("********** fail **********")
+                # redirect(location='/login.html', code=403)
+                # TODO: send request that password was bad
+        else:
+            redirect(location='/login.html', code=403)
+            # TODO: send request that user does not exist
+
+
+# a login object should be called and used before creating an Acc_change object
+class Acc_change(Existing_user):
+
+    def __init__(self, cursor, user_id: str, username: str, password: str):
+        super().__init__(cursor, username)
+        self.cursor = cursor
+        self.user_id = user_id
+        self.username = username
+        self.password = password
+
+    # changes username
+    def change_username(self, new_username) -> None:
+        self.cursor.execute(f'UPDATE user SET Name = "{new_username}" WHERE ID = {self.user_id}')
+        self.db.commit()
+
+    # changes password
+    def change_password(self, new_password) -> None:
+        salt = generate_salt(self.cursor)
+        key = generate_key(new_password, salt)
+        self.cursor.execute(f'UPDATE user SET Password = {key}, Salt = {salt}, WHERE ID = {self.user_id}')
+        self.db.commit()
+
+
+# generates new salt
+def generate_salt(cursor) -> bytes:
+    salt = os.urandom(32)
+    cursor.execute(f'SELECT Salt from users WHERE Salt = {salt}')
+    collision = cursor.fetchone()
+    if len(collision) == 0:
+        return salt
+    else:
+        return generate_salt(cursor)
+
+
+# generates new key
+def generate_key(password: str, salt: bytes) -> bytes:
+    key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
+    return key
