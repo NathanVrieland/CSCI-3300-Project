@@ -69,7 +69,7 @@ class Login(Authenticator, Existing_user):
     def is_match(self) -> bool:
         self.cursor.execute(f'SELECT password FROM users WHERE Name = "{self.username}"')
         password = self.cursor.fetchone()[0]
-        self.cursor.execute(f'UPDATE user SET Password = {generate_key(password, self.get_salt())}, Salt = {self.get_salt()}, WHERE ID = {self.get_id}')
+        self.cursor.execute(f'UPDATE user SET Password = "{generate_key(password, self.get_salt())}", Salt = "{self.get_salt()}", WHERE ID = "{self.get_id}"')
         self.cursor.commit()
         print(f'Key: {self.key}\nPassword: {bytes(password, encoding="utf-8")}')
         # compares key as a string to the password in database
