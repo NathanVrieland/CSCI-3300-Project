@@ -5,6 +5,7 @@ from flask import Flask, request, send_file
 from flask_socketio import SocketIO, emit, send
 from auth import Login
 
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app)
@@ -18,18 +19,21 @@ mydb = mysql.connector.connect(
   database="APP"                                   # If you want to connect to a specific database
 )
 
+
 @app.route('/')
 def handle_root():
     #TODO check if the client has username browser cookies, and serve login if they do not
     with open("index.html", 'r') as index:
         return index.read()
 
+      
 '''@app.route('/login')
 def handle_login():
     with open("login.html", 'r') as index:
         return index.read()
 '''
       
+  
 @app.route('/signup', methods=['POST'])
 def signup():
     print("\033[92m###### got authentication request ######\033[0m")
@@ -54,6 +58,7 @@ def login():
     login_obj = Login(mycursor, username, password)
     login_obj.login()       # logs in user
 
+    
 @app.route('/content/', methods=['GET'])
 def handle_content():
     global mydb
@@ -69,6 +74,7 @@ def handle_content():
     cursor.close()
     return "".join(content)
     
+    
 @app.route('/groups/', methods=['GET'])
 def handle_groups():
     global mydb
@@ -77,15 +83,18 @@ def handle_groups():
     cursor.execute(f"select g.ID, g.Name from is_in join users u on is_in.user_ID = u.ID join groupchats g on g.ID = is_in.chat_ID where u.Name = '{user_name}'")
     return cursor.fetchall()
 
+  
 # websocket methods
 @socketio.on('connect') # at the moment just for logging / debuging 
 def handle_connect():
     print('websocket Client connected')
 
+    
 @socketio.on('disconnect') # at the moment just for logging / debuging
 def handle_disconnect():
     print('websocket Client disconnected')
 
+    
 @socketio.on('message')
 def handle_message(message):
     global mydb
