@@ -1,26 +1,72 @@
-import json
+import os
 import hashlib
 import mysql.connector
+from flask import redirect
 
 
-class Login:
-    def __init__(self, cursor: mysql.connector.cursor.MySQLCursor, username: str, password: str):
+# parent class for authenticating
+class Authenticator:
+
+    def __init__(self, cursor, username: str, password: str):
         self.cursor = cursor
         self.username = username
-        self.key = get_key(username, password)
+        self.password = password
 
-    # checks if username is in the database
+    # returns true if there is a name of username in the user table
     def is_user(self) -> bool:
-        self.cursor.execute(f'SELECT Name FROM users WHERE Name={self.username}')
+        self.cursor.execute(f'SELECT Name FROM users WHERE Name = "{self.username}"')
         # checks if anything was fetched
         if len(self.cursor.fetchone()) != 0:
             return True
         else:
             return False
 
+
+# parent class for getting information from existing users
+class Existing_user:
+
+    def __init__(self, cursor, username: str):
+        self.cursor = cursor
+        self.username = username
+        self.id = self.get_id()
+
+    # returns id from database as string
+    def get_id(self) -> str:
+        self.cursor.execute(f'SELECT ID from users WHERE Name = "{self.username}"')
+        id = self.cursor.fetchone()
+        return id
+
+    def get_salt(self) -> bytes:
+        self.cursor.execute(f'SELECT Salt FROM users WHERE ID = {self.id}')
+        salt = self.cursor.fetchone()
+        return salt.encode('utf-8')
+
+
+# signup handler
+class Signup(Authenticator):
+    def __init__(self, cursor, username: str, password: str):
+        super().__init__(cursor, username, password)
+
+    def signup(self):
+        salt = os.urandom(32)
+        key = generate_key(self.password, salt)
+        self.cursor.execute(f'INSERT INTO users VALUES ("{self.username}", "{key}", "{salt}")')
+        self.cursor.commit()
+        redirect('/login.html', code=302)
+
+
+# login handler
+class Login(Authenticator, Existing_user):
+
+    def __init__(self, cursor, username: str, password: str):
+        Authenticator.__init__(self, cursor, username, password)
+        Existing_user.__init__(self, cursor, username)
+        salt = self.get_salt()
+        self.key = generate_key(self.password, salt)
+
     # checks that key matches key in database
-    def get_match(self):
-        self.cursor.execute(f'SELECT password FROM users WHERE Name={self.username}')
+    def is_match(self) -> bool:
+        self.cursor.execute(f'SELECT password FROM users WHERE Name = "{self.username}"')
         password = self.cursor.fetchone()[0]
         # compares key as a string to the password in database
         if self.key.decode() == password:
@@ -28,15 +74,48 @@ class Login:
         else:
             return False
 
+    def login(self) -> None:
+        if self.is_user():
+            if self.is_match():
+                redirect(location='/index.html', code=302)
+                # TODO: send request with user information
+            else:
+                redirect(location='/login.html', code=403)
+                # TODO: send request that password was bad
+        else:
+            redirect(location='/login.html', code=403)
+            # TODO: send request that user does not exist
 
-# returns a key, which is the password hashed with salt
-def get_key(username: str, password: str) -> bytes:
-    # finds appropriate salt
-    with open('login.json') as json_file:
-        data = json.load(json_file)['logins']
-        for entry in data:
-            if username == entry:
-                salt = entry['salt']
-                # uses password-based key derivation function 2 to derive a key
-                key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
-                return key
+
+# a login object should be called and used before creating an Acc_change object
+class Acc_change(Existing_user):
+
+    def __init__(self, cursor, user_id: str, username: str, password: str):
+        super().__init__(cursor, username)
+        self.cursor = cursor
+        self.user_id = user_id
+        self.username = username
+        self.password = password
+
+    # changes username
+    def change_username(self, new_username) -> None:
+        self.cursor.execute(f'UPDATE user SET Name = "{new_username}" WHERE ID = {self.user_id}')
+        self.cursor.commit()
+
+    # changes password
+    def change_password(self, new_password) -> None:
+        salt = generate_salt()
+        key = generate_key(new_password, salt)
+        self.cursor.execute(f'UPDATE user SET Password = {key}, Salt = {salt}, WHERE ID = {self.user_id}')
+        self.cursor.commit()
+
+
+# generates new salt
+def generate_salt() -> bytes:
+    return os.urandom(32)
+
+
+# generates new key
+def generate_key(password: str, salt: bytes) -> bytes:
+    key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
+    return key
