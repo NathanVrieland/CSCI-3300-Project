@@ -65,10 +65,10 @@ class Login(Authenticator, Existing_user):
         self.key = generate_key(self.password, salt)
 
     # checks that key matches key in database
-        def is_match(self) -> bool:
+    def is_match(self) -> bool:
         self.cursor.execute(f'SELECT password FROM users WHERE Name = "{self.username}"')
         password = self.cursor.fetchone()[0]
-        print(f'Key:       {self.key}\nPassword    {bytes(password, encoding="utf-8")}')
+        print(f'Key: {self.key}\nPassword: {bytes(password, encoding="utf-8")}')
         # compares key as a string to the password in database
         if self.password == password:
             return True
