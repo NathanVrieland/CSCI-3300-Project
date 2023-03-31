@@ -24,10 +24,11 @@ def handle_root():
     with open("index.html", 'r') as index:
         return index.read()
 
-@app.route('/login')
+'''@app.route('/login')
 def handle_login():
     with open("login.html", 'r') as index:
         return index.read()
+'''
       
 @app.route('/signup', methods=['POST'])
 def signup():
