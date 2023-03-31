@@ -104,16 +104,22 @@ class Acc_change(Existing_user):
 
     # changes password
     def change_password(self, new_password) -> None:
-        # salt must be changed when updating password
-        salt = generate_salt()
+        salt = generate_salt(self.cursor)
         key = generate_key(new_password, salt)
         self.cursor.execute(f'UPDATE user SET Password = {key}, Salt = {salt}, WHERE ID = {self.user_id}')
         self.cursor.commit()
 
 
 # generates new salt
-def generate_salt() -> bytes:
-    return os.urandom(32)
+def generate_salt(cursor) -> bytes:
+    salt = os.urandom(32)
+    cursor.execute(f'SELECT Salt from users WHERE Salt = {salt}')
+    collision = cursor.fetchone()
+    if len(collision) == 0:
+        return salt
+    else:
+        return generate_salt(cursor)
+
 
 
 # generates new key
