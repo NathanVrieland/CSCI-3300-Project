@@ -51,10 +51,10 @@ class Signup(Authenticator):
         super().__init__(db, username, password)
 
     def signup(self):
-        salt = os.urandom(32)
+        salt = os.urandom(32).hex()
         key = generate_key(self.password, salt)
         print('SIGNUP ###### ' + key, salt)
-        self.cursor.execute(f"INSERT INTO users (name, password, browser_cookie, salt) VALUES ('{self.username}', '{key}', random.randint(0, 100000)', '{salt.decode()}')")
+        self.cursor.execute(f"INSERT INTO users (name, password, browser_cookie, salt) VALUES ('{self.username}', '{key}', random.randint(0, 100000)', '{salt.hex()}')")
         self.db.commit()
         redirect('/login.html', code=302)
 
@@ -122,8 +122,8 @@ class Acc_change(Existing_user):
 
 
 # generates new salt
-def generate_salt(cursor) -> bytes:
-    salt = os.urandom(32)
+def generate_salt(cursor) -> str:
+    salt = os.urandom(32).hex()
     cursor.execute(f'SELECT salt from users WHERE salt = {salt}')
     collision = cursor.fetchone()
     if len(collision) == 0:
@@ -133,6 +133,6 @@ def generate_salt(cursor) -> bytes:
 
 
 # generates new key
-def generate_key(password: str, salt: bytes) -> str:
-    key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
+def generate_key(password: str, salt: str) -> str:
+    key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt.encode('utr-8'), 100000)
     return key.hex()
