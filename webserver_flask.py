@@ -41,9 +41,9 @@ def signup():
     username = json_data['username']
     password = json_data['password']
     print(f"\033[92m###### {username=} {password=} ######\033[0m")
-    mycursor = mydb.cursor()
-    signup_obj = Signup(mycursor, username, password)
+    signup_obj = Signup(mydb, username, password)
     signup_obj.signup()     # creates new user account
+    return "ok"
 
 
 @app.route('/login', methods=['POST'])
