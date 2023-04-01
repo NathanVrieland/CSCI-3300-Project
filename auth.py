@@ -70,8 +70,7 @@ class Login(Authenticator, Existing_user):
     def is_match(self) -> bool:
         self.cursor.execute(f'SELECT password FROM users WHERE Name = "{self.username}"')
         password = self.cursor.fetchone()[0]
-        print(f'********** Key: {self.key}\nPassword: {password} **********')
-        self.db.commit()
+        print(f'Key: {self.key}\nPassword: {password}')
         # compares key as a string to the password in database
         if self.key == password:
             return True
