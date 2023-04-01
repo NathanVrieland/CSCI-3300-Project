@@ -52,6 +52,7 @@ class Signup(Authenticator):
 
     def signup(self):
         salt = os.urandom(32)
+        print('######## GEN SALT', salt)
         key = generate_key(self.password, salt)
         print('KEY ###########' + key, salt.hex())
         self.cursor.execute(f"INSERT INTO users (name, password, browser_cookie, salt) VALUES ('{self.username}', '{key}', '555555', '{salt.hex()}')")
@@ -134,5 +135,5 @@ def generate_salt(cursor) -> bytes:
 
 # generates new key
 def generate_key(password: str, salt: bytes) -> str:
-    key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), b'badsalt', 100000)
+    key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
     return key.hex()
