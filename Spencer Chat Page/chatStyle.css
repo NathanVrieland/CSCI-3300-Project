@@ -1,0 +1,521 @@
+* {
+     /*--- Main Page Adjustment ---*/
+     overflow-y: hidden;
+     overflow: hidden;
+     box-sizing: border-box;
+     margin: 0;
+     padding: 0;
+}
+
+/*--- ScrollBars ---*/
+/* Base */
+.chat-list::-webkit-scrollbar {
+     width: 10px;
+}
+
+.friend-names::-webkit-scrollbar {
+     width: 10px;
+}
+
+.member-names::-webkit-scrollbar {
+     width: 10px;
+}
+
+.messages-container::-webkit-scrollbar {
+     width: 10px;
+
+}
+
+/* Track */
+.chat-list::-webkit-scrollbar-track {
+     background: #4e4e4e;
+     border-radius: 5px;
+}
+
+.friend-names::-webkit-scrollbar-track {
+     background: #4e4e4e;
+     border-radius: 5px;
+}
+
+.member-names::-webkit-scrollbar-track {
+     background: #4e4e4e;
+     border-radius: 5px;
+}
+
+.messages-container::-webkit-scrollbar-track {
+     background: #4e4e4e;
+     border-radius: 5px;
+}
+
+/* Handle */
+.chat-list::-webkit-scrollbar-thumb {
+     background: #888;
+     border-radius: 5px;
+}
+
+.friend-names::-webkit-scrollbar-thumb {
+     background: #888;
+     border-radius: 5px;
+}
+
+.member-names::-webkit-scrollbar-thumb {
+     background: #888;
+     border-radius: 5px;
+}
+
+.messages-container::-webkit-scrollbar-thumb {
+     background: #888;
+     border-radius: 5px;
+}
+
+/* Handle on hover */
+.chat-list::-webkit-scrollbar-thumb:hover {
+     background: #d3d3d3;
+}
+
+.friend-names::-webkit-scrollbar-thumb:hover {
+     background: #d3d3d3;
+}
+
+.member-names::-webkit-scrollbar-thumb:hover {
+     background: #d3d3d3;
+}
+
+.messages-container::-webkit-scrollbar-thumb:hover {
+     background: #d3d3d3;
+}
+
+/*--- End of ScrollBars ---*/
+
+
+/*--- Font Section ---*/
+@font-face {
+     font-family: "Circular-Bold";
+     src: url("https://assets.analogue.co/type/lineto-circular-bold.eot");
+     src: url("https://assets.analogue.co/type/lineto-circular-bold.eot?#iefix") format("embedded-opentype"), url("https://assets.analogue.co/type/lineto-circular-bold.woff2") format("woff2"), url("https://assets.analogue.co/type/lineto-circular-bold.woff") format("woff");
+     font-weight: normal;
+     font-style: normal;
+     font-display: swap;
+}
+
+body {
+     font-family: Circular-Bold, sans-serif;
+     color: #fff;
+}
+
+button {
+     font-family: Circular-Bold, sans-serif;
+     color: #fff;
+}
+
+input {
+     font-family: Circular-Bold, sans-serif;
+     color: #fff;
+}
+
+/*--- End of Font Section ---*/
+
+.container {
+     display: flex;
+     height: 100vh;
+}
+
+/*--- Left Side ---*/
+.left-section {
+     flex: 1;
+     padding: 20px;
+     background-color: #171714;
+     display: flex;
+     flex-direction: column;
+     max-width: 350px;
+     min-width: 300px;
+}
+
+.left-section .webbed-chats-title {
+     margin-bottom: 10px;
+     padding-bottom: 15px;
+     height: 50px;
+     min-height: 35px;
+     white-space: nowrap;
+     overflow-x: hidden;
+     transition: transform 0.3s ease-out;
+}
+
+.left-section .webbed-chats-title:hover {
+     transform: scale(1.01);
+     transition: transform 0.3s ease;
+}
+
+.left-section .webbed-icon {
+     height: 40px;
+     vertical-align: middle;
+     transform: translateY(-3px);
+}
+
+.left-section .newChat {
+     margin-bottom: 10px;
+     padding-bottom: 25px;
+     height: 50px;
+     min-height: 35px;
+     padding: 10px;
+     border: none;
+     background-color: #b2a4ff;
+     color: #171714;
+     border-radius: 5px;
+     cursor: pointer;
+     transition: transform 0.3s ease-out;
+}
+
+.left-section .newChat:hover {
+     transform: scale(1.01);
+     transition: transform 0.3s ease;
+     background-color: #5dabb5;
+}
+
+.chat-list {
+     list-style: none;
+     margin-bottom: 20px;
+     overflow-y: auto;
+     overflow-x: hidden;
+     border-left: 5px solid #5e5e5e;
+     border-top-left-radius: 5px;
+     border-bottom-left-radius: 5px;
+     max-height: auto;
+}
+
+
+.chat-list li {
+     padding: 10px;
+     cursor: pointer;
+     border-radius: 5px;
+     transition: transform 0.3s ease-out;
+}
+
+.chat-list li:hover {
+     background-color: #d4d4d4;
+     color: #171714;
+     transform: scale(1.01);
+     transition: transform 0.3s ease;
+}
+
+/*--- User Details Section ---*/
+.user-details {
+     margin-top: auto;
+     display: flex;
+     /* justify-content: space-between; */
+     align-items: center;
+     background-color: #333;
+     border-radius: 15px;
+     overflow-x: hidden;
+     max-height: 60px;
+     min-height: 60px;
+}
+
+
+.user-details .userInfo {
+     white-space: nowrap;
+
+}
+
+.user-details .username {
+     overflow-x: hidden;
+}
+
+.user-details .userID {
+     opacity: 50%;
+     background: none;
+     border: none;
+     margin: 0;
+     padding: 0;
+     cursor: pointer;
+     transition: transform 0.3s ease-out;
+}
+
+.user-details .userID:hover {
+     transform: scale(1.05);
+     transition: transform 0.3s ease;
+}
+
+.user-details .profile-pic {
+     height: 50px;
+     min-width: 50px;
+     padding-left: 5px;
+     border-radius: 50%;
+     cursor: pointer;
+     transition: transform 0.3s ease-out;
+}
+
+.user-details .profile-pic:hover {
+     transform: scale(1.05);
+     transition: transform 0.3s ease;
+}
+
+.user-details .settings-btn {
+     border: none;
+     height: 30px;
+     margin-left: auto;
+     padding-right: 15px;
+     cursor: pointer;
+     transition: transform 0.3s ease-out;
+
+}
+
+.user-details .settings-btn:hover {
+     transform: scale(1.10);
+     transition: transform 0.3s ease;
+}
+
+/*--- End of Left Side ---*/
+
+/*--- Middle Section ---*/
+.middle-section {
+     flex: 3;
+     /* padding: 20px; */
+     display: flex;
+     flex-direction: column;
+     justify-content: space-between;
+     background-color: #171714;
+}
+
+.chat-header {
+     /* Not Needed.... maybe. */
+     background-color: #171714;
+}
+
+.chat-header h2 {
+     padding: 20px;
+}
+
+.messages-container {
+     overflow-y: auto;
+     flex: 1;
+     padding: 20px;
+     border-top-right-radius: 10px;
+     border-top-left-radius: 10px;
+     background-color: #333;
+}
+
+.message {
+     display: flex;
+     flex-direction: column;
+     margin-bottom: 10px;
+}
+
+.message-text {
+     padding: 10px;
+     background-color: #b2a4ff;
+     color: #fff;
+     border-radius: 5px;
+     width: fit-content;
+     max-width: 100%;
+}
+
+.message-sender {
+     font-size: 12px;
+     margin-top: 5px;
+     font-size: 80%;
+     align-items: center;
+}
+
+.message-date {
+     color: #a1a1a1;
+     margin-left: 10px;
+     font-size: 75%;
+}
+
+.message-sender::before {
+     content: "- ";
+     font-weight: bold;
+}
+
+.message.sent .message-text {
+     background-color: #d3d3d3;
+     color: #000;
+}
+
+.message.sent .message-text::before {
+     content: "";
+}
+
+.message.sent .message-sender {
+     text-align: right;
+}
+
+.message.sent .message-sender::before {
+     content: "";
+}
+
+.message-form {
+     display: flex;
+     margin-top: auto;
+     overflow-x: hidden;
+     padding: 20px;
+     background-color: #333333a0;
+}
+
+.message-form input[type="text"] {
+     flex: 1;
+     padding: 15px;
+     border: none;
+     border-top-left-radius: 5px;
+     border-bottom-left-radius: 5px;
+     background-color: #333;
+}
+
+.message-form button[type="submit"] {
+     padding-left: 10px;
+     padding-right: 10px;
+     border: none;
+     background-color: #5dabb5;
+     color: #fff;
+     border-top-right-radius: 5px;
+     border-bottom-right-radius: 5px;
+     cursor: pointer;
+     transition: transform 0.3s ease-out;
+     min-height: 30px;
+}
+
+.message-form button:hover {
+     background-color: #74cd87;
+     transform: scale(1.05);
+     transition: transform 0.3s ease;
+}
+
+/*--- End of Middle Section ---*/
+
+/*--- Right Side ---*/
+.right-section {
+     flex: 1;
+     padding: 20px;
+     background-color: #171714;
+     max-width: 275px;
+     min-width: 250px;
+}
+
+.right-section .friends-list {
+     overflow-x: hidden;
+     margin-bottom: 25px;
+}
+
+.right-section .friend-title {
+     margin-bottom: 10px;
+}
+
+.right-section .friend-names {
+     overflow-x: hidden;
+     overflow-y: auto;
+     max-height: 43vh;
+}
+
+.right-section .friend-names li {
+     display: flex;
+     cursor: pointer;
+     align-items: center;
+     padding: 10px;
+     margin-bottom: 2.5px;
+     border-radius: 5px;
+     transition: transform 0.3s ease-out;
+}
+
+.right-section .friend-names li:hover {
+     background-color: #d4d4d4;
+     color: #171714;
+     transform: scale(1.01);
+     transition: transform 0.3s ease;
+}
+
+.right-section .friend-names li img {
+     height: 30px;
+     width: auto;
+     border-radius: 50%;
+}
+
+.right-section .friend-names li span {
+     font-weight: bold;
+     margin-left: 10px;
+}
+
+.right-section .round-divider {
+     border: 5px solid #383838;
+     border-radius: 5px;
+     align-items: center;
+     margin: auto;
+}
+
+
+.right-section .members-list {
+     margin-top: 10px;
+     margin-bottom: 50px;
+     overflow-x: hidden;
+
+}
+
+.right-section .member-title {
+     margin-bottom: 10px;
+}
+
+.right-section .member-names {
+     overflow-x: hidden;
+     overflow-y: auto;
+     max-height: 43vh;
+}
+
+.right-section .member-names li {
+     display: flex;
+     cursor: pointer;
+     align-items: center;
+     padding: 10px;
+     margin-bottom: 2.5px;
+     border-radius: 5px;
+     transition: transform 0.3s ease-out;
+}
+
+.right-section .member-names li:hover {
+     background-color: #d4d4d4;
+     color: #171714;
+     transform: scale(1.01);
+     transition: transform 0.3s ease;
+}
+
+.right-section .member-names li img {
+     height: 30px;
+     width: auto;
+     border-radius: 50%;
+}
+
+.right-section .member-names li span {
+     font-weight: bold;
+     margin-left: 10px;
+}
+
+/*--- End of Right Side ---*/
+
+/* When Window Size Changes, These Disappear */
+@media screen and (max-width: 1000px) {
+
+     .right-section {
+          display: none;
+     }
+}
+
+@media screen and (max-width: 750px) {
+
+     .left-section {
+          display: none;
+     }
+}
+
+@media screen and (max-height: 750px) {
+
+     .right-section .members-list {
+          display: none;
+     }
+
+     .right-section .friend-names {
+          max-height: calc(90vh - 25px);
+     }
+
+     .right-section .round-divider {
+          display: none;
+     }
+}
