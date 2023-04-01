@@ -59,18 +59,18 @@ class Signup(Authenticator):
 
 # login handler
 class Login(Authenticator, Existing_user):
-    
+
     def __init__(self, db, username: str, password: str):
         Authenticator.__init__(self, db, username, password)
         Existing_user.__init__(self, db, username)
         salt = self.get_salt()
-        self.key = generate_key(self.password, self)
+        self.key = generate_key(self.password, salt)
 
     # checks that key matches key in database
     def is_match(self) -> bool:
         self.cursor.execute(f'SELECT password FROM users WHERE Name = "{self.username}"')
         password = self.cursor.fetchone()[0]
-        print(f'Key: {self.key}\nPassword: {password}')
+        print(f'********** Key: {self.key}\nPassword: {password} **********')
         self.db.commit()
         # compares key as a string to the password in database
         if self.key == password:
