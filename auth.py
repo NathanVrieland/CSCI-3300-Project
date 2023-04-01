@@ -67,6 +67,7 @@ class Login(Authenticator, Existing_user):
         Existing_user.__init__(self, db, username)
         salt = self.get_salt()
         self.key = generate_key(self.password, salt)
+        print('####SALT FROM DB#######', salt)
 
     # checks that key matches key in database
     def is_match(self) -> bool:
