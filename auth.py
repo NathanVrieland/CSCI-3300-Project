@@ -1,5 +1,6 @@
 import os
 import hashlib
+import random
 import mysql.connector
 from flask import redirect
 
