@@ -6,6 +6,7 @@ import mysql.connector
 from flask import redirect
 
 
+# this is a comment
 # parent class for authenticating
 class Authenticator:
 
