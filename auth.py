@@ -54,7 +54,7 @@ class Signup(Authenticator):
         salt = os.urandom(32)
         key = generate_key(self.password, salt)
         print('KEY ###########' + key, salt.hex())
-        self.cursor.execute(f"INSERT INTO users (name, password, browser_cookie, salt) VALUES ('{self.username}', '{key}', '555555', '{salt}')")
+        self.cursor.execute(f"INSERT INTO users (name, password, browser_cookie, salt) VALUES ('{self.username}', '{key}', '555555', '{salt.decode()}')")
         self.db.commit()
         redirect('/login.html', code=302)
 
