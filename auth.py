@@ -39,11 +39,11 @@ class Existing_user:
         id = self.cursor.fetchone()[0]
         return id
 
-    def get_salt(self) -> bytes:
+    def get_salt(self) -> str:
         print('############', self.id)
         self.cursor.execute(f'SELECT salt FROM users WHERE ID = {self.id}')
         salt = self.cursor.fetchone()[0]
-        return salt.encode('utf-8')
+        return salt
 
 
 # signup handler
