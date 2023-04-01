@@ -37,7 +37,7 @@ def handle_login():
   
 @app.route('/signup', methods=['POST'])
 def auth_signup():
-    print("\033[92m###### got authentication request ######\033[0m")
+    print("\033[92m###### got signup request ######\033[0m")
     json_data = request.get_json()
     username = json_data['username']
     password = json_data['password']
@@ -50,7 +50,7 @@ def auth_signup():
 @app.route('/login', methods=['POST'])
 def auth_login():
     global mydb
-    print("\033[92m###### got authentication request ######\033[0m")
+    print("\033[92m###### got login request ######\033[0m")
     # gets data from login.html
     json_data = request.get_json()
     username = json_data['username']
