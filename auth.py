@@ -54,7 +54,7 @@ class Signup(Authenticator):
     def signup(self):
         salt = os.urandom(32).hex()
         key = generate_key(self.password, salt)
-        print('SIGNUP ###### ' + key, salt)
+        print(f'\033[92m###### Signup.signup() key: {key}, salt: {salt} ######\033[0m')
         self.cursor.execute(f"INSERT INTO users (name, password, browser_cookie, salt) VALUES ('{self.username}', '{key}', {random.randrange(0, 100000)}, '{salt}')")
         self.db.commit()
         redirect('/login.html', code=302)
@@ -68,13 +68,13 @@ class Login(Authenticator, Existing_user):
         Existing_user.__init__(self, db, username)
         salt = self.get_salt()
         self.key = generate_key(self.password, salt)
-        print('####SALT FROM DB#######', salt)
+        print(f'\033[92m###### Login.__init__() salt: {salt} ######\033[0m')
 
     # checks that key matches key in database
     def is_match(self) -> bool:
         self.cursor.execute(f'SELECT password FROM users WHERE name = "{self.username}"')
         password = self.cursor.fetchone()[0]
-        print(f'Key: {self.key}\nPassword: {password}')
+        print(f'\033[92m###### Login.is_match() self.key: {self.key}, password: {password} ######\033[0m')
         # compares key as a string to the password in database
         if self.key == password:
             return True
@@ -84,12 +84,12 @@ class Login(Authenticator, Existing_user):
     def login(self) -> int | bool:
         if self.is_user():
             if self.is_match():
-                print("********** success **********")
+                print(f'\033[92m###### success ######\033[0m')
                 # redirect(location='/index.html', code=302)
                 # TODO: send request with user information
                 return self.id
             else:
-                print("********** fail **********")
+                print(f'\033[92m###### fail ######\033[0m')
                 # redirect(location='/login.html', code=403)
                 # TODO: send request that password was bad
                 return False
