@@ -49,6 +49,7 @@ def auth_signup():
 
 @app.route('/login', methods=['POST'])
 def auth_login():
+    global mydb
     print("\033[92m###### got authentication request ######\033[0m")
     # gets data from login.html
     json_data = request.get_json()
@@ -56,10 +57,13 @@ def auth_login():
     password = json_data['password']
     print(f"\033[92m###### {username=} {password=} ######\033[0m")
     login_obj = Login(mydb, username, password)
-    if login_obj.login():
+    login_return = login_obj.login()
+    if login_return:
         newcookie = str(random.randbytes(8))
         resp = make_response("setting a cookie")
-        resp.set_cookie('login', )
+        resp.set_cookie('login', newcookie)
+        cursor = mydb.cursor()
+        cursor.execute(f"UPDATE users SET browser_cookie = {newcookie} WHERE ID = {login_return}")
     else:
         abort(403)
         
