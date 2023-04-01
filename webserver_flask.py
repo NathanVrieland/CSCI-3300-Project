@@ -3,7 +3,7 @@ import json
 import mysql.connector
 from flask import Flask, request, send_file
 from flask_socketio import SocketIO, emit, send
-from auth import Login
+from auth import Login, Signup
 
 
 app = Flask(__name__)
