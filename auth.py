@@ -134,5 +134,5 @@ def generate_salt(cursor) -> str:
 
 # generates new key
 def generate_key(password: str, salt: str) -> str:
-    key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt.encode('utr-8'), 100000)
+    key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt.encode('utf-8'), 100000)
     return key.hex()
