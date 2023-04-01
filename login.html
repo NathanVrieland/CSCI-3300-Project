@@ -12,18 +12,19 @@
     <label>
         <input id="username" type="text" name="username" placeholder="Username"/>
         <input id="password" type="text" name="password" placeholder="Password"/>
-        <input type="button" value="login" onclick="send_login(this.form)">
+        <input type="button" value="Log in" onclick="send_login(this.form, '/login')">
+        <input type="button" value="Sign up" onclick="send_login(this.form, '/signup')">
     </label>
 </form>
 <script lang="JavaScript">
-    function send_login(form) {
+    function send_login(form, location) {
         console.log("###### SENDING... ######")
         const data = {
             "username": form.username.value,
             "password": form.password.value
         }
         const xhr = new XMLHttpRequest()
-        xhr.open('POST', '/login')
+        xhr.open('POST', location)
         xhr.setRequestHeader('Content-Type', 'application/json')
         xhr.onload = function() {
             // location.replace("/")
