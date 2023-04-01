@@ -15,7 +15,7 @@ class Authenticator:
 
     # returns true if there is a name of username in the user table
     def is_user(self) -> bool:
-        self.cursor.execute(f'SELECT Name FROM users WHERE Name = "{self.username}"')
+        self.cursor.execute(f'SELECT name FROM users WHERE name = "{self.username}"')
         # checks if anything was fetched
         if len(self.cursor.fetchone()) != 0:
             return True
@@ -34,7 +34,7 @@ class Existing_user:
 
     # returns id from database as string
     def get_id(self) -> str:
-        self.cursor.execute(f'SELECT ID from users WHERE Name = "{self.username}"')
+        self.cursor.execute(f'SELECT ID from users WHERE name = "{self.username}"')
         id = self.cursor.fetchone()[0]
         return id
 
@@ -52,7 +52,7 @@ class Signup(Authenticator):
     def signup(self):
         salt = os.urandom(32)
         key = generate_key(self.password, salt)
-        self.cursor.execute(f'INSERT INTO users VALUES ("{self.username}", "{key}", "{salt}")')
+        self.cursor.execute(f'INSERT INTO users VALUES ("{self.username}", "{key}", "111", "{salt}")')
         self.db.commit()
         redirect('/login.html', code=302)
 
@@ -68,7 +68,7 @@ class Login(Authenticator, Existing_user):
 
     # checks that key matches key in database
     def is_match(self) -> bool:
-        self.cursor.execute(f'SELECT password FROM users WHERE Name = "{self.username}"')
+        self.cursor.execute(f'SELECT password FROM users WHERE name = "{self.username}"')
         password = self.cursor.fetchone()[0]
         print(f'Key: {self.key}\nPassword: {password}')
         # compares key as a string to the password in database
@@ -104,21 +104,21 @@ class Acc_change(Existing_user):
 
     # changes username
     def change_username(self, new_username) -> None:
-        self.cursor.execute(f'UPDATE user SET Name = "{new_username}" WHERE ID = {self.user_id}')
+        self.cursor.execute(f'UPDATE user SET name = "{new_username}" WHERE ID = {self.user_id}')
         self.db.commit()
 
     # changes password
     def change_password(self, new_password) -> None:
         salt = generate_salt(self.cursor)
         key = generate_key(new_password, salt)
-        self.cursor.execute(f'UPDATE user SET Password = {key}, Salt = {salt}, WHERE ID = {self.user_id}')
+        self.cursor.execute(f'UPDATE user SET password = {key}, salt = {salt}, WHERE ID = {self.user_id}')
         self.db.commit()
 
 
 # generates new salt
 def generate_salt(cursor) -> bytes:
     salt = os.urandom(32)
-    cursor.execute(f'SELECT Salt from users WHERE Salt = {salt}')
+    cursor.execute(f'SELECT salt from users WHERE salt = {salt}')
     collision = cursor.fetchone()
     if len(collision) == 0:
         return salt
