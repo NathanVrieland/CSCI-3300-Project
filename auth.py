@@ -39,7 +39,7 @@ class Existing_user:
         return id
 
     def get_salt(self) -> bytes:
-        self.cursor.execute(f'SELECT salt FROM users WHERE ID = "{self.id}"')
+        self.cursor.execute(f'SELECT salt FROM users WHERE ID = {self.id}')
         salt = self.cursor.fetchone()[0]
         return salt.encode('utf-8')
 
@@ -52,7 +52,7 @@ class Signup(Authenticator):
     def signup(self):
         salt = os.urandom(32)
         key = generate_key(self.password, salt)
-        print('KEY ###########' + key, salt)
+        print('KEY ###########' + key, salt.hex())
         self.cursor.execute(f"INSERT INTO users (name, password, browser_cookie, salt) VALUES ('{self.username}', '{key}', '111', '{salt.hex()}')")
         self.db.commit()
         redirect('/login.html', code=302)
