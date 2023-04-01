@@ -12,12 +12,12 @@
     <label>
         <input id="username" type="text" name="username" placeholder="Username"/>
         <input id="password" type="text" name="password" placeholder="Password"/>
-        <input type="button" value="Log in" onclick="send_login(this.form, '/login')">
-        <input type="button" value="Sign up" onclick="send_login(this.form, '/signup')">
+        <input type="button" value="Log in" onclick="authenticate(this.form, '/login')">
+        <input type="button" value="Sign up" onclick="authenticate(this.form, '/signup')">
     </label>
 </form>
 <script lang="JavaScript">
-    function send_login(form, location) {
+    function authenticate(form, location) {
         console.log("###### SENDING... ######")
         const data = {
             "username": form.username.value,
