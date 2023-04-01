@@ -47,7 +47,7 @@ def signup():
 
 
 @app.route('/login', methods=['POST'])
-def login():
+def handle_login():
     print("\033[92m###### got authentication request ######\033[0m")
     # gets data from login.html
     json_data = request.get_json()
