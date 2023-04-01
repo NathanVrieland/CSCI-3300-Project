@@ -1,7 +1,8 @@
 #this does the same thing as the other two webservers, but uses python flask library
 import json
 import mysql.connector
-from flask import Flask, request, send_file
+import random
+from flask import Flask, request, send_file, make_response, abort
 from flask_socketio import SocketIO, emit, send
 from auth import Login, Signup
 
@@ -55,7 +56,13 @@ def auth_login():
     password = json_data['password']
     print(f"\033[92m###### {username=} {password=} ######\033[0m")
     login_obj = Login(mydb, username, password)
-    login_obj.login()       # logs in user
+    if login_obj.login():
+        newcookie = str(random.randbytes(8))
+        resp = make_response("setting a cookie")
+        resp.set_cookie('login', )
+    else:
+        abort(403)
+        
     return "ok"
 
     

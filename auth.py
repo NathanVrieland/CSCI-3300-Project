@@ -77,19 +77,22 @@ class Login(Authenticator, Existing_user):
         else:
             return False
 
-    def login(self) -> None:
+    def login(self) -> int | bool:
         if self.is_user():
             if self.is_match():
                 print("********** success **********")
                 # redirect(location='/index.html', code=302)
                 # TODO: send request with user information
+                return self.id
             else:
                 print("********** fail **********")
                 # redirect(location='/login.html', code=403)
                 # TODO: send request that password was bad
+                return False
         else:
-            redirect(location='/login.html', code=403)
+            # redirect(location='/login.html', code=403)
             # TODO: send request that user does not exist
+            return False
 
 
 # a login object should be called and used before creating an Acc_change object
