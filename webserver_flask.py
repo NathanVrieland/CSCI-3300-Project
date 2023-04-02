@@ -131,7 +131,7 @@ def handle_message(message):
         message_adder.execute(f"INSERT INTO messages (message, userID, groupchat) VALUES ('{data['message']}', {userID}, {data['groupchat']});")
         message_adder.close()
         mydb.commit() # this pushes changes to the database 
-        emit('update', {data['message']}, broadcast=True) 
+        emit('update', {"user": data['message']}, broadcast=True) 
 
 if __name__ == '__main__':
     socketio.run(app, port=port, host=host)
