@@ -50,7 +50,7 @@ def auth_signup():
 
     cursor = mydb.cursor()
     cursor.execute(f"UPDATE users SET browser_cookie = {newcookie} WHERE name = '{username}'")
-    cursor.commit()
+    mydb.commit()
     return resp
 
 
