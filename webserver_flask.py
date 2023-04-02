@@ -93,7 +93,7 @@ def handle_groups():
     global mydb
     user_name = request.args.get("user")
     cursor = mydb.cursor()
-    cursor.execute(f"select g.ID, g.Name from is_in join users u on is_in.user_ID = u.ID join groupchats g on g.ID = is_in.chat_ID where u.Name = '{user_name}'")
+    cursor.execute(f"select g.ID, g.Name from is_in join users u on is_in.user_ID = u.ID join groupchats g on g.ID = is_in.chat_ID where u.browser_cookie = '{request.cookies.get('login')}'")
     return cursor.fetchall()
 
   

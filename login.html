@@ -38,7 +38,7 @@
         xhr.open('POST', location)
         xhr.setRequestHeader('Content-Type', 'application/json')
         xhr.onload = function() {
-            // location.replace("/")
+            location.replace("/")
         }; 
         xhr.onerror = function() {
             document.write("login failed")
