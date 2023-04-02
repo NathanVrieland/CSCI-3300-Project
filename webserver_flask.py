@@ -49,7 +49,7 @@ def auth_signup():
     resp.set_cookie('login', newcookie)
 
     cursor = mydb.cursor()
-    cursor.execute(f"UPDATE users SET browser_cookie = {newcookie} WHERE name = {username}")
+    cursor.execute(f"UPDATE users SET browser_cookie = {newcookie} WHERE name = '{username}'")
     cursor.commit()
     return resp
 
