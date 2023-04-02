@@ -9,7 +9,7 @@
         </div>
     </div ID="end_page"></div>
         <div class="bottom-element">
-            <select id="groupselect" onchange="get_chat()">
+            <select id="groupselect" onchange="get_chat()" onclick="populate_groupselector()">
                 
             </select>
             <!-- <button class="bevel" id="refresh" onclick="get_chat()">refresh messages</button> -->
@@ -126,6 +126,8 @@
             contentSocket.send(JSON.stringify(data)) // send that bih
             
         }
+
+
 
         function populate_groupselector() {
             const request = new XMLHttpRequest()
