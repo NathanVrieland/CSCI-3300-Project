@@ -59,7 +59,7 @@ def auth_login():
     login_obj = Login(mydb, username, password)
     login_return = login_obj.login()
     if login_return:
-        newcookie = str(random.randbytes(8))
+        newcookie = str(random.randint(0, 99999999999999))
         resp = make_response("setting a cookie")
         resp.set_cookie('login', newcookie)
         cursor = mydb.cursor()
