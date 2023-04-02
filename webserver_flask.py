@@ -46,7 +46,6 @@ def auth_signup():
         handles requests at path '/signup'
         adds new user to database, calls signup class, and assigns browser cookies to user
     '''
-    global mydb
     # parse JSON for username and password
     print("\033[92m###### got signup request ######\033[0m")
     json_data = request.get_json()
@@ -59,10 +58,6 @@ def auth_signup():
     # create an HTML response that will tell the browser to store user cookie
     resp = make_response("creating new user")
     resp.set_cookie('login', newcookie)
-
-    cursor = mydb.cursor()
-    # cursor.execute(f"UPDATE users SET browser_cookie = {newcookie} WHERE name = '{username}'")
-    mydb.commit()
     return resp
 
 
@@ -105,6 +100,8 @@ def handle_content():
     '''
     global mydb
     groupchat = request.args.get("groupchat")
+    if groupchat == '':
+        abort(404)
     content = [] # list to build into chat
     cursor = mydb.cursor()
     userlookup = mydb.cursor()
