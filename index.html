@@ -82,7 +82,6 @@
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
     <script>
-        let user_name = prompt("please enter your name")
         
         document.addEventListener("DOMContentLoaded", () => {
             populate_groupselector()
@@ -118,8 +117,7 @@
 
         function send_chat() {
             var data = { // create object to send to server 
-                "type": "chat",
-                "name": user_name, // name field
+                "type": "chat", // name field
                 "message": document.getElementById("message_input").value, // message field
                 "groupchat": document.getElementById("groupselect").value
             };
@@ -130,7 +128,7 @@
 
         function populate_groupselector() {
             const request = new XMLHttpRequest()
-            request.open('GET', '/groups/?user=' + user_name)
+            request.open('GET', '/groups')
             request.onreadystatechange = () => {
                 if (request.readyState === 4 && request.status === 200) {
                     groups = JSON.parse(request.responseText)

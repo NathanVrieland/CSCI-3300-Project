@@ -117,13 +117,13 @@ def handle_message(message):
         userlookup = mydb.cursor()
         message_adder = mydb.cursor()
         # lookup user 
-        userlookup.execute(f"SELECT ID FROM users where Name='{data['name']}'")
+        userlookup.execute(f"SELECT ID FROM users where browser_cookie='{request.cookies.get('login')}'")
         try: # make sure the user exists and return if not
             userID = userlookup.fetchall()[0][0] # fetchall() returns a list of tupeles, so we just need [0][0]
-            print(f"user {userID} ({data['name']}) sent a message")
+            print(f"user {userID} sent a message")
             userlookup.close()
         except IndexError:
-            print(f"user {data['name']} not found")
+            print(f"user not found")
             message_adder.close()
             userlookup.close()
             return
@@ -131,7 +131,7 @@ def handle_message(message):
         message_adder.execute(f"INSERT INTO messages (message, userID, groupchat) VALUES ('{data['message']}', {userID}, {data['groupchat']});")
         message_adder.close()
         mydb.commit() # this pushes changes to the database 
-        emit('update', {data['name']: data['message']}, broadcast=True) 
+        emit('update', {data['message']}, broadcast=True) 
 
 if __name__ == '__main__':
     socketio.run(app, port=port, host=host)
