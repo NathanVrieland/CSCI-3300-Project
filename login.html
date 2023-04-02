@@ -45,7 +45,7 @@
         }; 
         xhr.onreadystatechange = function() { // runs when request is returned 
             if (xhr.readyState === 4 && xhr.status === 200) { // make sure return suceeded 
-                window.location = '/'
+                window.location.href = '/'
             }
         }
         xhr.send(JSON.stringify(data))
