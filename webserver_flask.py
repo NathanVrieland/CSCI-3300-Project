@@ -47,6 +47,8 @@ def auth_signup():
     newcookie = signup_obj.signup()     # creates new user account
     resp = make_response("creating new user")
     resp.set_cookie('login', newcookie)
+
+    cursor = mydb.cursor()
     cursor.execute(f"UPDATE users SET browser_cookie = {newcookie} WHERE ID = {login_return}")
     cursor.commit()
     return resp
