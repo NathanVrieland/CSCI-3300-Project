@@ -9,7 +9,7 @@
         </div>
     </div ID="end_page"></div>
         <div class="bottom-element">
-            <select id="groupselect" onchange="get_chat()" onclick="populate_groupselector()">
+            <select id="groupselect" onchange="get_chat()">
                 
             </select>
             <!-- <button class="bevel" id="refresh" onclick="get_chat()">refresh messages</button> -->
@@ -127,7 +127,7 @@
             
         }
 
-
+        document.getElementById("groupselect").addEventListener("click", populate_groupselector)
 
         function populate_groupselector() {
             const request = new XMLHttpRequest()
