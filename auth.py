@@ -56,7 +56,7 @@ class Signup(Authenticator):
         salt = os.urandom(32).hex()
         key = generate_key(self.password, salt)
         print(f'\033[92m###### Signup.signup() key: {key}, salt: {salt} ######\033[0m')
-        self.cursor.execute(f"INSERT INTO users (name, password, browser_cookie, salt, date_joined) VALUES ('{self.username}', '{key}', 'null', '{salt}', {datetime.date.today()})")
+        self.cursor.execute(f"INSERT INTO users (name, password, browser_cookie, salt) VALUES ('{self.username}', '{key}', 'null', '{salt}')")
         self.db.commit()
         redirect('/login.html', code=302)
 
