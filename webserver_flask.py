@@ -23,13 +23,18 @@ mydb = mysql.connector.connect(
 
 @app.route('/')
 def handle_root():
-    #TODO check if the client has username browser cookies, and serve login if they do not
+    '''
+        handles requests at path '/' and serves index.html
+    '''
     with open("index.html", 'r') as index:
         return index.read()
 
       
 @app.route('/login', methods=["GET"])
 def handle_login():
+    '''
+        handles GET requests at path '/login' and serves login.html
+    '''
     with open("login.html", 'r') as index:
         return index.read()
 
@@ -37,25 +42,37 @@ def handle_login():
   
 @app.route('/signup', methods=['POST'])
 def auth_signup():
+    '''
+        handles requests at path '/signup'
+        adds new user to database, calls signup class, and assigns browser cookies to user
+    '''
     global mydb
+    # parse JSON for username and password
     print("\033[92m###### got signup request ######\033[0m")
     json_data = request.get_json()
     username = json_data['username']
     password = json_data['password']
     print(f"\033[92m###### {username=} {password=} ######\033[0m")
+    # create new user and return its browser cookie
     signup_obj = Signup(mydb, username, password)
     newcookie = signup_obj.signup()     # creates new user account
+    # create an HTML response that will tell the browser to store user cookie
     resp = make_response("creating new user")
     resp.set_cookie('login', newcookie)
 
     cursor = mydb.cursor()
-    cursor.execute(f"UPDATE users SET browser_cookie = {newcookie} WHERE name = '{username}'")
+    # cursor.execute(f"UPDATE users SET browser_cookie = {newcookie} WHERE name = '{username}'")
     mydb.commit()
     return resp
 
 
 @app.route('/login', methods=['POST'])
 def auth_login():
+    '''
+        handles POST requests at path '/login' 
+        calls login object to check if the user has entered correct username and password
+        if so, gives client new browser cookie and saves it to the database 
+    '''
     global mydb
     print("\033[92m###### got login request ######\033[0m")
     # gets data from login.html
@@ -81,6 +98,11 @@ def auth_login():
     
 @app.route('/content/', methods=['GET'])
 def handle_content():
+    '''
+        handles requests at path '/content/'
+        queries the database for messages at the desired groupchat 
+        builds the messages returned from the groupchat into a large string to be sent to the client
+    '''
     global mydb
     groupchat = request.args.get("groupchat")
     content = [] # list to build into chat
@@ -97,6 +119,10 @@ def handle_content():
     
 @app.route('/groups/', methods=['GET'])
 def handle_groups():
+    '''
+        handles requests at path '/groups/' 
+        simply returns an an array of arrays that contain groupchat ID's followed by groupchat names
+    '''
     global mydb
     # user_name = request.args.get("user")
     cursor = mydb.cursor()
@@ -117,6 +143,12 @@ def handle_disconnect():
     
 @socketio.on('message')
 def handle_message(message):
+    '''
+    websocket method that is called whenever a user sends a message
+    message is recieved from client as a JSON object, and is inserted into database 
+    also calls emit() which pings all other connected websocket clients
+    pinged clients then update their list of messages
+    '''
     global mydb
     # websocket message will be formatted as arbitrary json strings, so use data["type"] to get type
     data = json.loads(message)
