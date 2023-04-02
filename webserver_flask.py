@@ -85,6 +85,7 @@ def handle_content():
     for i in cursor.fetchall():
         userlookup.execute(f"SELECT Name FROM users where ID={i[3]}")
         content.append(f"{userlookup.fetchall()[0][0]} on {i[2]}: {i[1]}\n")
+        print(type(i[2]))
     userlookup.close()
     cursor.close()
     return "".join(content)
