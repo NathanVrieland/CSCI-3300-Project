@@ -43,8 +43,10 @@ def auth_signup():
     password = json_data['password']
     print(f"\033[92m###### {username=} {password=} ######\033[0m")
     signup_obj = Signup(mydb, username, password)
-    signup_obj.signup()     # creates new user account
-    return "ok"
+    newcookie = signup_obj.signup()     # creates new user account
+    resp = make_response("creating new user")
+    resp.set_cookie('login', newcookie)
+    return resp
 
 
 @app.route('/login', methods=['POST'])

@@ -53,12 +53,14 @@ class Signup(Authenticator):
         super().__init__(db, username, password)
 
     def signup(self):
+        new_cookie = str(random.randint(0, 99999999999999))
         salt = os.urandom(32).hex()
         key = generate_key(self.password, salt)
         print(f'\033[92m###### Signup.signup() key: {key}, salt: {salt} ######\033[0m')
-        self.cursor.execute(f"INSERT INTO users (name, password, browser_cookie, salt) VALUES ('{self.username}', '{key}', 'null', '{salt}')")
+        self.cursor.execute(f"INSERT INTO users (name, password, browser_cookie, salt) VALUES ('{self.username}', '{key}', '{new_cookie}', '{salt}')")
         self.db.commit()
         redirect('/login.html', code=302)
+        return new_cookie
 
 
 # login handler
