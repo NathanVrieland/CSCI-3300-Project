@@ -64,6 +64,8 @@ def auth_login():
         resp.set_cookie('login', newcookie)
         cursor = mydb.cursor()
         cursor.execute(f"UPDATE users SET browser_cookie = {newcookie} WHERE ID = {login_return}")
+        cursor.close()
+        mydb.commit()
         return resp
     else:
         abort(403)
