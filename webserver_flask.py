@@ -37,6 +37,7 @@ def handle_login():
   
 @app.route('/signup', methods=['POST'])
 def auth_signup():
+    global mydb
     print("\033[92m###### got signup request ######\033[0m")
     json_data = request.get_json()
     username = json_data['username']
@@ -46,6 +47,8 @@ def auth_signup():
     newcookie = signup_obj.signup()     # creates new user account
     resp = make_response("creating new user")
     resp.set_cookie('login', newcookie)
+    cursor.execute(f"UPDATE users SET browser_cookie = {newcookie} WHERE ID = {login_return}")
+    cursor.commit()
     return resp
 
 
