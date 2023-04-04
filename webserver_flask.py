@@ -140,6 +140,7 @@ def handle_adduser():
 
 @app.route('/addgroup', methods=["POST"])
 def handle_addgroup():
+    print("\033[96m#### adding group ####\033[0m")
     global mydb
     json_data = request.get_json()
     groupname = json_data["groupname"]
