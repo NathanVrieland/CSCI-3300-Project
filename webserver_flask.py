@@ -2,7 +2,7 @@
 import json
 import mysql.connector
 import random
-from lookups import userID_from_cookie
+from lookups import cookieExists
 from groupchat import Groupchat, Newchat
 from flask import Flask, request, send_file, make_response, abort
 from flask_socketio import SocketIO, emit, send
@@ -30,7 +30,7 @@ def handle_root():
         handles requests at path '/' and serves index.html
     '''
     global mydb
-    if userID_from_cookie(mydb, request.cookies.get('login')):
+    if cookieExists(mydb, request.cookies.get('login')):
         with open("index.html", 'r') as index:
             return index.read()
     else:
