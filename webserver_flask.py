@@ -136,6 +136,7 @@ def handle_adduser():
     user = json_data["user"]  
     mygroup = Groupchat(mydb, groupchat)
     mygroup.addUser(user)
+    return "ok"
 
 
 # websocket methods
