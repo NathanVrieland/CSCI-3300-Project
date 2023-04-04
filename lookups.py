@@ -1,7 +1,7 @@
 import mysql.connector
 def userID_from_name(database, name):
     userlookup = database.cursor()
-    userlookup.execute(f"SELECT ID from users where name='{username}'")
+    userlookup.execute(f"SELECT ID from users where name='{name}'")
     return userlookup.fetchone()[0]
 
 def groupchatID_fom_name(database, name):
