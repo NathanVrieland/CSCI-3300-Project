@@ -29,7 +29,8 @@ def handle_root():
     '''
         handles requests at path '/' and serves index.html
     '''
-    if userID_from_cookie(database, request.cookies.get('login')):
+    global mydb
+    if userID_from_cookie(mydb, request.cookies.get('login')):
         with open("index.html", 'r') as index:
             return index.read()
     else:
