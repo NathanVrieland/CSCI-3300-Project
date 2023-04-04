@@ -126,7 +126,13 @@ def handle_groups():
     cursor.execute(f"select g.ID, g.Name from is_in join users u on is_in.user_ID = u.ID join groupchats g on g.ID = is_in.chat_ID where u.browser_cookie = '{request.cookies.get('login')}'")
     return cursor.fetchall()
 
-  
+@app.route('/adduser')
+def handle_adduser():
+    json_data = request.get_json()
+    groupchat = json_data["groupchat"]
+    user = json_data["user"]  
+    print(f"handling adduser: {groupchat=}, {user=}")
+
 # websocket methods
 @socketio.on('connect') # at the moment just for logging / debuging 
 def handle_connect():

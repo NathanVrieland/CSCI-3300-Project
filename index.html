@@ -4,6 +4,12 @@
         <meta charset="UTF-8">
     </head>
     <body>
+        <div class="top-element">
+            <span class="right">
+                <button id="newgroup" onclick="new_group()">create groupchat</button>
+                <button id="adduser" onclick="add_user()">add people</button>
+            </span>
+        </div>
         <div>
             <p ID="messages"></p>
         </div>
@@ -25,6 +31,20 @@
         .bevel {
             border-radius: 10px;
             outline: 0px;
+        }
+        .top-element {
+            width: 100%;
+            position: fixed;
+            right:0%;
+            top: 0%; 
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: flex-end;     
+        }
+        .right {
+            width: 25%;
+            display: flex;
+            justify-content: flex-end;
         }
         .bottom-element {
             background-color: #545454;
@@ -145,6 +165,23 @@
                 }
             }
             request.send()
+        }
+
+        function add_user() {
+            username = prompt("enter user name")
+            request = new XMLHttpRequest()
+            request.open("POST", "/adduser")
+            request.setRequestHeader('Content-Type', 'application/json')
+            var data = {
+                "user": username,
+                "groupchat": document.getElementById("groupselect").value
+            }
+            request.send(JSON.stringify(data))
+        }
+
+        function new_group() {
+            groupname = prompt("enter new group name")
+
         }
     </script>
 </html>
