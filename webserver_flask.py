@@ -139,7 +139,7 @@ def handle_adduser():
     return "ok"
 
 @app.route('/addgroup', methods=["POST"])
-def handle_adduser():
+def handle_addgroup():
     global mydb
     json_data = request.get_json()
     groupname = json_data["groupname"]
