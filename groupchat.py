@@ -36,5 +36,3 @@ class Newchat(Groupchat):
         cursor.execute(f"INSERT INTO groupchats (name) VALUE ('{name}')")
         database.commit()
         super().__init__(database, groupchatID_fom_name(database, name))
-
-
