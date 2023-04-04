@@ -132,6 +132,7 @@ def handle_adduser():
     groupchat = json_data["groupchat"]
     user = json_data["user"]  
     print(f"handling adduser: {groupchat=}, {user=}")
+    return "ok"
 
 # websocket methods
 @socketio.on('connect') # at the moment just for logging / debuging 
