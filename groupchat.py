@@ -1,4 +1,4 @@
-import lookups
+from lookups import userID_from_name, groupchatID_fom_name, groupchatName_from_ID
 import mysql.connector
 class Groupchat():
 
