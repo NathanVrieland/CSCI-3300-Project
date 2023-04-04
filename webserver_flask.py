@@ -138,6 +138,14 @@ def handle_adduser():
     mygroup.addUser(user)
     return "ok"
 
+@app.route('/addgroup', methods=["POST"])
+def handle_adduser():
+    global mydb
+    json_data = request.get_json()
+    groupname = json_data["groupname"]
+    mygroup = Newchat(mydb, groupname)
+    mygroup.addCookie(request.cookies.get('login'))
+    return "ok"
 
 # websocket methods
 @socketio.on('connect') # at the moment just for logging / debuging 

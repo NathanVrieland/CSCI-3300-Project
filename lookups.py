@@ -4,6 +4,12 @@ def userID_from_name(database, name):
     userlookup.execute(f"SELECT ID from users where name='{name}'")
     return userlookup.fetchone()[0]
 
+def userID_from_cookie(database, cookie):
+    userlookup = database.cursor()
+    userlookup.execute(f"SELECT ID from users WHERE browser_cookie={cookie}")
+    return userlookup.fetchone()[0]
+
+
 def groupchatID_fom_name(database, name):
     grouplookup = database.cursor()
     grouplookup.execute(f"SELECT ID from groupchats WHERE name='{name}'")

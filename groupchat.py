@@ -1,4 +1,4 @@
-from lookups import userID_from_name, groupchatID_fom_name, groupchatName_from_ID
+from lookups import userID_from_name, groupchatID_fom_name, groupchatName_from_ID, userID_from_cookie
 import mysql.connector
 class Groupchat():
 
@@ -20,6 +20,12 @@ class Groupchat():
         cursor = self.database.cursor()
         userID = userID_from_name(self.database, username)
         cursor.execute(f"DELETE FROM is_in WHERE user_ID={userID} and chat_ID={self.ID}")
+        self.database.commit()
+
+    def addCookie(self, cookie):
+        cursor = self.database.cursor()
+        userID = userID_from_cookie(self.database, cookie)
+        cursor.execute(f"INSERT INTO is_in values ({userID}, {self.ID})")
         self.database.commit()
 
 class Newchat(Groupchat):
