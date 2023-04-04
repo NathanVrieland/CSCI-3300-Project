@@ -2,9 +2,11 @@
 import json
 import mysql.connector
 import random
+from groupchat import Groupchat, Newchat
 from flask import Flask, request, send_file, make_response, abort
 from flask_socketio import SocketIO, emit, send
 from auth import Login, Signup
+
 
 
 app = Flask(__name__)
@@ -128,11 +130,13 @@ def handle_groups():
 
 @app.route('/adduser', methods=["POST"])
 def handle_adduser():
+    global mydb
     json_data = request.get_json()
     groupchat = json_data["groupchat"]
     user = json_data["user"]  
-    print(f"handling adduser: {groupchat=}, {user=}")
-    return "ok"
+    mygroup = Groupchat(mydb, groupchat)
+    mygroup.addUser(user)
+
 
 # websocket methods
 @socketio.on('connect') # at the moment just for logging / debuging 
