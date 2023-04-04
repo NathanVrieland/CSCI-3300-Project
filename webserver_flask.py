@@ -2,6 +2,7 @@
 import json
 import mysql.connector
 import random
+from lookups import userID_from_cookie
 from groupchat import Groupchat, Newchat
 from flask import Flask, request, send_file, make_response, abort
 from flask_socketio import SocketIO, emit, send
@@ -28,8 +29,12 @@ def handle_root():
     '''
         handles requests at path '/' and serves index.html
     '''
-    with open("index.html", 'r') as index:
-        return index.read()
+    if userID_from_cookie(database, request.cookies.get('login')):
+        with open("index.html", 'r') as index:
+            return index.read()
+    else:
+        with open("login.html", 'r') as index:
+            return index.read()
 
       
 @app.route('/login', methods=["GET"])
