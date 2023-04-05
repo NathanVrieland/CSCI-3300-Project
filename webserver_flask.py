@@ -30,7 +30,7 @@ def handle_root():
         handles requests at path '/' and serves index.html
     '''
     global mydb
-    if cookieExists(mydb, request.cookies.get('login')):
+    if cookieExists(mydb, sanitize(request.cookies.get('login'))):
         with open("index.html", 'r') as index:
             return index.read()
     else:
@@ -57,8 +57,8 @@ def auth_signup():
     # parse JSON for username and password
     print("\033[92m###### got signup request ######\033[0m")
     json_data = request.get_json()
-    username = json_data['username']
-    password = json_data['password']
+    username = sanitize(json_data['username'])
+    password = sanitize(json_data['password'])
     print(f"\033[92m###### {username=} {password=} ######\033[0m")
     # create new user and return its browser cookie
     signup_obj = Signup(mydb, username, password)
@@ -80,8 +80,8 @@ def auth_login():
     print("\033[92m###### got login request ######\033[0m")
     # gets data from login.html
     json_data = request.get_json()
-    username = json_data['username']
-    password = json_data['password']
+    username = sanitize(json_data['username'])
+    password = sanitize(json_data['password'])
     print(f"\033[92m###### {username=} {password=} ######\033[0m")
     login_obj = Login(mydb, username, password)
     cookie = login_obj.login()
@@ -133,8 +133,8 @@ def handle_groups():
 def handle_adduser():
     global mydb
     json_data = request.get_json()
-    groupchat = json_data["groupchat"]
-    user = json_data["user"]  
+    groupchat = sanitize(json_data["groupchat"])
+    user = sanitize(json_data["user"])  
     mygroup = Groupchat(mydb, groupchat)
     mygroup.addUser(user)
     return "ok"
@@ -144,7 +144,7 @@ def handle_addgroup():
     print("\033[96m#### adding group ####\033[0m")
     global mydb
     json_data = request.get_json()
-    groupname = json_data["groupname"]
+    groupname = sanitize(json_data["groupname"])
     mygroup = Newchat(mydb, groupname)
     mygroup.addCookie(request.cookies.get('login'))
     return "ok"
@@ -170,12 +170,13 @@ def handle_message(message):
     '''
     global mydb
     # websocket message will be formatted as arbitrary json strings, so use data["type"] to get type
-    data = json.loads(message)
+    data = sanitize(json.loads(message))
     if data["type"] == "chat":
         userlookup = mydb.cursor()
         message_adder = mydb.cursor()
         # lookup user 
-        userlookup.execute(f"SELECT ID FROM users where browser_cookie='{request.cookies.get('login')}'")
+        cookie = sanitize(request.cookies.get('login'))
+        userlookup.execute(f"SELECT ID FROM users where browser_cookie='{cookie}'")
         try: # make sure the user exists and return if not
             userID = userlookup.fetchall()[0][0] # fetchall() returns a list of tupeles, so we just need [0][0]
             print(f"user {userID} sent a message")
@@ -189,7 +190,17 @@ def handle_message(message):
         message_adder.execute(f"INSERT INTO messages (message, userID, groupchat) VALUES ('{data['message']}', {userID}, {data['groupchat']});")
         message_adder.close()
         mydb.commit() # this pushes changes to the database 
-        emit('update', {"user": data['message']}, broadcast=True) 
+        emit('update', {"user": data['message']}, broadcast=True)
+
+
+    # Basic input sanitization
+    def sanitize(input: str) -> str:
+        escapes = ['--', ';', '=']
+        for i in escapes:
+            if i in input:
+                input = input.replace(i, '')
+    return input
+
 
 if __name__ == '__main__':
     socketio.run(app, port=port, host=host)
