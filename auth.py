@@ -130,6 +130,7 @@ def generate_salt(cursor) -> str:
     salt = os.urandom(32).hex()
     cursor.execute(f'SELECT salt from users WHERE salt = {salt}')
     collision = cursor.fetchone()
+    # fetchone() returns a NoneType if there is no match in the database
     if collision is None:
         return salt
     else:
@@ -141,6 +142,7 @@ def generate_cookie(cursor) -> str:
     cookie = f'{random.randint(0, 1000000):06}'
     cursor.execute(f'SELECT browser_cookie from users WHERE browser_cookie = {cookie}')
     collision = cursor.fetchone()
+    # fetchone() returns a NoneType if there is no match in the database
     if collision is None:
         return cookie
     else:
