@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# pulls code from git
+cd CSCI-3300-Project
 git pull
-# starts server, requires password
 sudo python3 webserver_flask.py
