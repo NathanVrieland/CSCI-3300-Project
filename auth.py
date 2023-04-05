@@ -56,7 +56,7 @@ class Existing_user:
 	# returns a new cookie and updates the cookie in the database
     def new_cookie(self) -> str:
         cookie = generate_cookie(self.cursor)
-        self.cursor.execute(f'UPDATE users SET browser_cookie = {cookie} WHERE ID = {login_return}')
+        self.cursor.execute(f'UPDATE users SET browser_cookie = {cookie} WHERE ID = {self.id}')
         self.db.commit()
         return cookie
 
