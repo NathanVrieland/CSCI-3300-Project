@@ -13,9 +13,9 @@
      width: 10px;
 }
 
-.friend-names::-webkit-scrollbar {
+/* .friend-names::-webkit-scrollbar {
      width: 10px;
-}
+} */
 
 .member-names::-webkit-scrollbar {
      width: 10px;
@@ -32,10 +32,10 @@
      border-radius: 5px;
 }
 
-.friend-names::-webkit-scrollbar-track {
+/* .friend-names::-webkit-scrollbar-track {
      background: #4e4e4e;
      border-radius: 5px;
-}
+} */
 
 .member-names::-webkit-scrollbar-track {
      background: #4e4e4e;
@@ -53,10 +53,10 @@
      border-radius: 5px;
 }
 
-.friend-names::-webkit-scrollbar-thumb {
+/* .friend-names::-webkit-scrollbar-thumb {
      background: #888;
      border-radius: 5px;
-}
+} */
 
 .member-names::-webkit-scrollbar-thumb {
      background: #888;
@@ -73,9 +73,9 @@
      background: #d3d3d3;
 }
 
-.friend-names::-webkit-scrollbar-thumb:hover {
+/* .friend-names::-webkit-scrollbar-thumb:hover {
      background: #d3d3d3;
-}
+} */
 
 .member-names::-webkit-scrollbar-thumb:hover {
      background: #d3d3d3;
@@ -392,7 +392,7 @@ input {
      min-width: 250px;
 }
 
-.right-section .friends-list {
+/* .right-section .friends-list {
      overflow-x: hidden;
      margin-bottom: 25px;
 }
@@ -440,7 +440,7 @@ input {
      border-radius: 5px;
      align-items: center;
      margin: auto;
-}
+} */
 
 
 .right-section .members-list {
@@ -457,7 +457,8 @@ input {
 .right-section .member-names {
      overflow-x: hidden;
      overflow-y: auto;
-     max-height: 43vh;
+     /* max-height: 43vh; */
+     max-height: auto;
 }
 
 .right-section .member-names li {
