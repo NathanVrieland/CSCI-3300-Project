@@ -84,9 +84,8 @@ def auth_login():
     password = json_data['password']
     print(f"\033[92m###### {username=} {password=} ######\033[0m")
     login_obj = Login(mydb, username, password)
-    login_return = login_obj.login()
-    if login_return:
-        cookie = login.new_cookie()
+    cookie = login_obj.login()
+    if cookie:
         resp = make_response("setting a cookie")
         resp.set_cookie('login', cookie)
         return resp
