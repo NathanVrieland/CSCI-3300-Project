@@ -46,13 +46,13 @@ class Existing_user:
         self.cursor.execute(f'SELECT salt FROM users WHERE ID = {self.id}')
         salt = self.cursor.fetchone()[0]
         return salt
-	
+
 	# returns a cookie from the database
 	def get_cookie(self) -> str:
 		self.cursor.execute(f'SELECT browser_cookie FROM users WHERE ID = {self.id}')
 		cookie = self.cursor.fetchone()[0]
 		return cookie
-	
+
 	# returns a new cookie and updates the cookie in the database
 	def new_cookie(self) -> str:
 		cookie = generate_cookie(self.cursor)
