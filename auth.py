@@ -59,7 +59,6 @@ class Existing_user:
 		self.cursor.execute(f'UPDATE users SET browser_cookie = {cookie} WHERE ID = {login_return}')
 		self.db.commit()
 		return cookie
-	#
 
 
 # signup handler
