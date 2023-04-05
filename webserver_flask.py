@@ -86,13 +86,9 @@ def auth_login():
     login_obj = Login(mydb, username, password)
     login_return = login_obj.login()
     if login_return:
-        newcookie = str(random.randint(0, 99999999999999))
+        cookie = login.new_cookie()
         resp = make_response("setting a cookie")
-        resp.set_cookie('login', newcookie)
-        cursor = mydb.cursor()
-        cursor.execute(f"UPDATE users SET browser_cookie = {newcookie} WHERE ID = {login_return}")
-        cursor.close()
-        mydb.commit()
+        resp.set_cookie('login', cookie)
         return resp
     else:
         abort(403)
