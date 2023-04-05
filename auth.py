@@ -53,7 +53,7 @@ class Signup(Authenticator):
         super().__init__(db, username, password)
 
     def signup(self):
-        new_cookie = str(random.randint(0, 99999999999999))
+        new_cookie = generate_cookie(self.cursor)
         salt = os.urandom(32).hex()
         key = generate_key(self.password, salt)
         print(f'\033[92m###### Signup.signup() key: {key}, salt: {salt} ######\033[0m')
