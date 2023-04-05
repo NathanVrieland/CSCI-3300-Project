@@ -135,6 +135,16 @@ def generate_salt(cursor) -> str:
     else:
         return generate_salt(cursor)
 
+# generates new cookie
+def generate_cookie(cursor) -> str:
+    cookie = random.randint(0, 1000000)
+    cursor.execute(f'SELECT cookie from users WHERE cookie = {cookie:06}')
+    collision = cursor.fetchone()
+    if len(collision) == 0:
+        return cookiedwadwa
+    else:
+        return generate_cookie(cursor)
+
 
 # generates new key
 def generate_key(password: str, salt: str) -> str:
