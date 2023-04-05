@@ -105,7 +105,7 @@ class Login(Authenticator, Existing_user):
         if self.is_user():
             if self.is_match():
                 print(f'\033[92m###### success ######\033[0m')
-                return new_cookie()
+                return self.new_cookie()
             else:
                 print(f'\033[92m###### fail ######\033[0m')
                 return False
