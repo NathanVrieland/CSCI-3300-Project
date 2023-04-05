@@ -41,14 +41,29 @@ class Existing_user:
         id = self.cursor.fetchone()[0]
         return id
 
+	# returns salt from the database
     def get_salt(self) -> str:
         self.cursor.execute(f'SELECT salt FROM users WHERE ID = {self.id}')
         salt = self.cursor.fetchone()[0]
         return salt
+	
+	# returns a cookie from the database
+	def get_cookie(self) -> str:
+		self.cursor.execute(f'SELECT browser_cookie FROM users WHERE ID = {self.id}')
+		cookie = self.cursor.fetchone()[0]
+		return cookie
+	
+	# returns a new cookie and updates the cookie in the database
+	def new_cookie(self) -> str:
+		cookie = generate_cookie(self.cursor)
+		self.cursor.execute(f'UPDATE users SET browser_cookie = {cookie} WHERE ID = {login_return}')
+		self.db.commit()
+		return cookie
 
 
 # signup handler
 class Signup(Authenticator):
+	
     def __init__(self, db, username: str, password: str):
         super().__init__(db, username, password)
 
@@ -84,6 +99,7 @@ class Login(Authenticator, Existing_user):
         else:
             return False
 
+	# calls is_match() and returns the user's ID
     def login(self) -> int | bool:
         if self.is_user():
             if self.is_match():
