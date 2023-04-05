@@ -193,12 +193,12 @@ def handle_message(message):
         emit('update', {"user": data['message']}, broadcast=True)
 
 
-    # Basic input sanitization
-    def sanitize(input: str) -> str:
-        escapes = ['--', ';', '=']
-        for i in escapes:
-            if i in input:
-                input = input.replace(i, '')
+# Basic input sanitization
+def sanitize(input: str) -> str:
+    escapes = ['--', ';', '=']
+    for i in escapes:
+        if i in input:
+            input = input.replace(i, '')
     return input
 
 
