@@ -142,7 +142,7 @@ def generate_cookie(cursor) -> str:
     cursor.execute(f'SELECT cookie from users WHERE cookie = {cookie:06}')
     collision = cursor.fetchone()
     if len(collision) == 0:
-        return cookied
+        return cookie
     else:
         return generate_cookie(cursor)
 
