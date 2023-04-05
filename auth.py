@@ -88,17 +88,11 @@ class Login(Authenticator, Existing_user):
         if self.is_user():
             if self.is_match():
                 print(f'\033[92m###### success ######\033[0m')
-                # redirect(location='/index.html', code=302)
-                # TODO: send request with user information
                 return self.id
             else:
                 print(f'\033[92m###### fail ######\033[0m')
-                # redirect(location='/login.html', code=403)
-                # TODO: send request that password was bad
                 return False
         else:
-            # redirect(location='/login.html', code=403)
-            # TODO: send request that user does not exist
             return False
 
 
@@ -139,6 +133,7 @@ def generate_salt(cursor) -> str:
     
 # generates new cookie
 def generate_cookie(cursor) -> str:
+    # a new random six digit number filled with zeros to the left formatted as string
     cookie = f'{random.randint(0, 1000000):06}'
     cursor.execute(f'SELECT browser_cookie from users WHERE browser_cookie = {cookie}')
     collision = cursor.fetchone()
