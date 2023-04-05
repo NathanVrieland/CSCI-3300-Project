@@ -62,10 +62,10 @@ def auth_signup():
     print(f"\033[92m###### {username=} {password=} ######\033[0m")
     # create new user and return its browser cookie
     signup_obj = Signup(mydb, username, password)
-    newcookie = signup_obj.signup()     # creates new user account
+    cookie = signup_obj.signup()     # creates new user account
     # create an HTML response that will tell the browser to store user cookie
     resp = make_response("creating new user")
-    resp.set_cookie('login', newcookie)
+    resp.set_cookie('login', cookie)
     return resp
 
 
