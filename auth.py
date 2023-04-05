@@ -139,7 +139,7 @@ def generate_salt(cursor) -> str:
 # generates new cookie
 def generate_cookie(cursor) -> str:
     cookie = f'{random.randint(0, 1000000):06}'
-    cursor.execute(f'SELECT cookie from users WHERE browser_cookie = {cookie}')
+    cursor.execute(f'SELECT browser_cookie from users WHERE browser_cookie = {cookie}')
     collision = cursor.fetchone()
     if len(collision) == 0:
         return cookie
