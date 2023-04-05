@@ -48,17 +48,17 @@ class Existing_user:
         return salt
 
 	# returns a cookie from the database
-	def get_cookie(self) -> str:
-		self.cursor.execute(f'SELECT browser_cookie FROM users WHERE ID = {self.id}')
-		cookie = self.cursor.fetchone()[0]
-		return cookie
+    def get_cookie(self) -> str:
+        self.cursor.execute(f'SELECT browser_cookie FROM users WHERE ID = {self.id}')
+        cookie = self.cursor.fetchone()[0]
+        return cookie
 
 	# returns a new cookie and updates the cookie in the database
-	def new_cookie(self) -> str:
-		cookie = generate_cookie(self.cursor)
-		self.cursor.execute(f'UPDATE users SET browser_cookie = {cookie} WHERE ID = {login_return}')
-		self.db.commit()
-		return cookie
+    def new_cookie(self) -> str:
+        cookie = generate_cookie(self.cursor)
+        self.cursor.execute(f'UPDATE users SET browser_cookie = {cookie} WHERE ID = {login_return}')
+        self.db.commit()
+        return cookie
 
 
 # signup handler
