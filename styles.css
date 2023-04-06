@@ -1,12 +1,27 @@
+
 .bevel {
-    border-radius: 10px;
+    border-radius: 5px;
     outline: 0px;
+}
+.top-element {
+    width: 100%;
+    position: fixed;
+    right:0%;
+    top: 0%; 
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-end;     
+}
+.right {
+    width: 25%;
+    display: flex;
+    justify-content: flex-end;
 }
 .bottom-element {
     background-color: #545454;
     box-shadow: white;
     display: grid;
-    grid-auto-columns: 10fr 50px ;
+    grid-auto-columns: 100px 10fr 50px;
     width: 75%;
     position: fixed;
     left:12.5%;
@@ -14,29 +29,33 @@
     padding-left: 5px;
     padding-right: 5px;
     padding-top: 5px;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 .center {
     position: relative;
     margin-left: auto;
     margin-right: auto;
 }
-#message_input {
+#groupselect {
     grid-column: 1;
 }
-#send {
+#message_input {
     grid-column: 2;
+}
+#send {
+    grid-column: 3;
 }
 p {
     font-size: 20px;
     color: #e7e7e7;
+    font-family: Arial, Helvetica, sans-serif;
 }
 body {
     background-color: #1e1e1e;
 }
 input {
-    font-size: 20px;
-    font-family: 'Calibri';
+    font-size: 18px;
+    font-family: 'Arial';
     margin-bottom: 3px;
     color: #e7e7e7;
     background-color: #000000;
@@ -45,10 +64,11 @@ input {
 button {
     margin-top: 3px;
     height: 50px;
+    width: 50px;
     background-color: #e7e7e7;
 }
 button:hover {
-    fill: white;
-    background-color: black;
-    color: white;
+    fill: black;
+    background-color: gray;
+    color: black;
 }
