@@ -111,7 +111,7 @@ def handle_content():
     cursor.execute(f"SELECT * FROM messages where groupchat={groupchat}")
     for i in cursor.fetchall():
         userlookup.execute(f"SELECT Name FROM users where ID={i[3]}")
-        content.append(f"[{i[2].strftime('%H:%M')}]  {userlookup.fetchall()[0][0]}:  {i[1]}\n")
+        content.append(f"<{i[2].strftime('%H:%M')}>  {userlookup.fetchall()[0][0]}:  {i[1]}\n")
     userlookup.close()
     cursor.close()
     return "".join(content)
