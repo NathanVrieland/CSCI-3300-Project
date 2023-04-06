@@ -425,9 +425,10 @@ input {
 }
 
 .right-section .friend-names li img {
-     height: 30px;
+     max-height: 30px;
+     min-height: 30px;
      width: auto;
-     border-radius: 50%;
+     border-radius: 20%;
 }
 
 .right-section .friend-names li span {
@@ -447,7 +448,6 @@ input {
      margin-top: 10px;
      margin-bottom: 50px;
      overflow-x: hidden;
-
 }
 
 .right-section .member-title {
@@ -458,7 +458,7 @@ input {
      overflow-x: hidden;
      overflow-y: auto;
      /* max-height: 43vh; */
-     max-height: auto;
+     max-height: 90vh;
 }
 
 .right-section .member-names li {
@@ -479,9 +479,10 @@ input {
 }
 
 .right-section .member-names li img {
-     height: 30px;
+     max-height: 30px;
+     min-height: 30px;
      width: auto;
-     border-radius: 50%;
+     border-radius: 20%;
 }
 
 .right-section .member-names li span {
@@ -506,7 +507,7 @@ input {
      }
 }
 
-@media screen and (max-height: 750px) {
+/* @media screen and (max-height: 750px) {
 
      .right-section .members-list {
           display: none;
@@ -519,4 +520,4 @@ input {
      .right-section .round-divider {
           display: none;
      }
-}
+} */
