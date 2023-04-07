@@ -118,4 +118,33 @@
 </div>
 <!-- End of Circles -->
 
+<!-- Login / signup script -->
+<script lang="JavaScript">
+    function authenticate(form, location) {
+         
+        console.log("###### SENDING... ######")
+        const data = {
+            "username": form.username.value,
+            "password": form.password.value
+        }
+
+        const xhr = new XMLHttpRequest()
+        xhr.open('POST', location)
+        xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.onload = function() {
+            location.replace("/")
+        }; 
+        xhr.onerror = function() {
+            document.write("login failed")
+        }; 
+        xhr.onreadystatechange = function() { // runs when request is returned 
+            if (xhr.readyState === 4 && xhr.status === 200) { // make sure return suceeded 
+                window.location.href = '/'
+            }
+        }
+        xhr.send(JSON.stringify(data))
+    }
+</script>
+<!-- End of login / signup script -->
+     
 </html>
