@@ -46,7 +46,11 @@ def handle_login():
     with open("login.html", 'r') as index:
         return index.read()
 
-      
+    
+@app.route('/loginstyle')
+def handle_loginstyle():
+    with open("loginStyle.css", 'r') as style:
+        return style.read()
   
 @app.route('/signup', methods=['POST'])
 def auth_signup():
