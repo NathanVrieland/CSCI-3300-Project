@@ -82,8 +82,7 @@ def auth_login():
     '''
     global mydb
     print("\033[92m###### got login request ######\033[0m")
-    # gets data from login.html
-    json_data = request.get_json()
+    json_data = request.get_json()  # gets data from login.html
     username = sanitize(json_data['username'])
     password = sanitize(json_data['password'])
     print(f"\033[92m###### {username=} {password=} ######\033[0m")
@@ -107,9 +106,9 @@ def handle_content():
     '''
     global mydb
     groupchat = request.args.get("groupchat")
-    if groupchat == '':
+    if groupchat is None or groupchat == '':    # checks that groupchat has been selected
         abort(404)
-    content = [] # list to build into chat
+    content = []    # list to build into chat
     cursor = mydb.cursor()
     userlookup = mydb.cursor()
     cursor.execute(f"SELECT * FROM messages where groupchat={groupchat}")
