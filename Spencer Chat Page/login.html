@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+     <title>Webbed Login</title>
+     <link rel="shortcut icon" href="Pics/Webbed.ico" />
+     <link rel="stylesheet" href="/loginstyle">
+     <!--<script src="loginScript.js"></script>-->
+</head>
+
+<body>
+     <div class="mainStuff">
+          <!-- Top Waves Animation -->
+          <section class="waves">
+               <div class="topWave">
+                    <div class="air air1"></div>
+                    <div class="air air2"></div>
+                    <div class="air air3"></div>
+                    <div class="air air4"></div>
+               </div>
+          </section>
+          <!-- End of Top Waves -->
+
+          <h1 class="pageTitle">Webbed Chats</h1>
+          <hr class="round-divider">
+          <main class="bodyCont">
+               <!-- About Us Section -->
+               <div class="section-aboutUs">
+                    <h2>About Us</h2>
+                    <p>At Webbed, we're passionate about secure and private group messaging. Our app provides end-to-end
+                         local security, so your conversations remain confidential. We're dedicated to creating a
+                         user-friendly and secure messaging experience that connects people from all walks of life. We
+                         believe communication is key to building strong relationships and designed Webbed Chats to do
+                         just that. Reach out to us with any feedback or questions. Thank you for choosing Webbed Chats!
+                    </p>
+               </div>
+               <!-- End of About Us -->
+
+               <!-- Login Section -->
+               <div class="section-login">
+                    <div class="login-handling">
+                         <div class="card">
+                              <a class="signup">Log In!</a>
+                              <div class="inputBox">
+                                   <input type="text" name="name" required="required">
+                                   <span>Username</span>
+                              </div>
+
+                              <div class="inputBox">
+                                   <input type="password" required="required">
+                                   <span>Password</span>
+                              </div>
+
+                              <div class="btns">
+                                   <div class="leftBtn">
+                                        <button class="signbtn" onclick="authenticate(leftBtn.value, '/signup')"> Sign Up! </button>
+                                   </div>
+                                   <hr class="btnDiv">
+                                   <div class="rightBtn">
+                                        <button class="logbtn" onclick="authenticate(rightBtn.value, '/login')"> Log In! </button>
+                                   </div>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+               <!-- End of Login -->
+          </main>
+
+     </div>
+
+     <!-- Waves Animation -->
+     <section class="waves">
+          <div class="botWave">
+               <div class="air air1"></div>
+               <div class="air air2"></div>
+               <div class="air air3"></div>
+               <div class="air air4"></div>
+          </div>
+     </section>
+     <!-- End of Waves -->
+
+</body>
+
+
+
+<!-- Footer Info -->
+<footer>
+     <div class="fullfoot">
+          <div class="footrow">
+               <div class="email">
+                    <a href="mailto:info@yourwebsite.com">Contact Us</a>
+               </div>
+               <div class="privacy">
+                    <a href="#">Privacy Policy</a>
+               </div>
+               <div class="copyright">
+                    &copy; Webbed 2023. All Rights Reserved.
+               </div>
+          </div>
+     </div>
+</footer>
+<!-- End of Footer -->
+
+<!-- Circles Animation -->
+<div class="area">
+     <ul class="circles">
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+     </ul>
+</div>
+<!-- End of Circles -->
+
+<!-- Login / signup script -->
+<script lang="JavaScript">
+    function authenticate(form, location) {
+         
+        console.log("###### SENDING... ######")
+        const data = {
+            "username": form.username.value,
+            "password": form.password.value
+        }
+
+        const xhr = new XMLHttpRequest()
+        xhr.open('POST', location)
+        xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.onload = function() {
+            location.replace("/")
+        }; 
+        xhr.onerror = function() {
+            document.write("login failed")
+        }; 
+        xhr.onreadystatechange = function() { // runs when request is returned 
+            if (xhr.readyState === 4 && xhr.status === 200) { // make sure return suceeded 
+                window.location.href = '/'
+            }
+        }
+        xhr.send(JSON.stringify(data))
+    }
+</script>
+<!-- End of login / signup script -->
+     
+</html>
