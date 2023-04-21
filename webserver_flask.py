@@ -180,7 +180,6 @@ def handle_message(message):
         # lookup user 
         cookie = sanitize(request.cookies.get('login'))
         userlookup.execute(f"SELECT ID FROM users where browser_cookie='{cookie}'")
-        sleep(.5) # hopefully this makes the spamming not crash the server
         try: # make sure the user exists and return if not
             userID = userlookup.fetchall()[0][0] # fetchall() returns a list of tupeles, so we just need [0][0]
             print(f"user {userID} sent a message")
