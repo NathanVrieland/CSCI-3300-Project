@@ -63,6 +63,8 @@ def auth_signup():
     json_data = request.get_json()
     username = sanitize(json_data['username'])
     password = sanitize(json_data['password'])
+    if username == '' or password == '':
+        abort(404)
     print(f"\033[92m###### {username=} {password=} ######\033[0m")
     # create new user and return its browser cookie
     signup_obj = Signup(mydb, username, password)
