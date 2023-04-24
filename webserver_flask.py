@@ -150,6 +150,8 @@ def handle_addgroup():
     global mydb
     json_data = request.get_json()
     groupname = sanitize(json_data["groupname"])
+    if groupname == '':
+        abort(404)
     mygroup = Newchat(mydb, groupname)
     mygroup.addCookie(request.cookies.get('login'))
     return "ok"
