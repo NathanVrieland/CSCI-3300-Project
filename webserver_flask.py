@@ -176,6 +176,8 @@ def handle_message(message):
     global mydb
     # websocket message will be formatted as arbitrary json strings, so use data["type"] to get type
     data = sanitize(json.loads(message))
+    if data == '':
+        abort(404)
     if data["type"] == "chat":
         userlookup = mydb.cursor()
         message_adder = mydb.cursor()
